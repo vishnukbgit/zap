@@ -11,7 +11,7 @@ pipeline{
                // sh "cp ${WORKSPACE}/out/testreport.html ${WORKSPACE}/testreport.html"
                 //sh "aws s3 cp testreport.html s3://vishnu-test-s3 "
                 script {
-                    catch (err) {
+                    catch(err) {
                      echo err.getMessage()
                     }
                  }
