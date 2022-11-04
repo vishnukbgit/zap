@@ -1,0 +1,491 @@
+{
+  "info": {
+    "title": "Steera-foundation",
+    "version": "1.0",
+    "description": "Steera APIS"
+  },
+  "host": "sit.v2.backend.healthelink.com.au",
+  "schemes": [
+    "http"
+  ],
+  "swagger": "2.0",
+  "paths": {
+    "/login": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Login into Steera Application",
+        "parameters": [
+          {
+            "name": "Credentials",
+            "in": "body",
+            "description": "Login credentials",
+            "schema": {
+              "$ref": "#/definitions/LoginCredentials"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Authenticated user details",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "AccessToken": {
+                      "type": "string"
+                    },
+                    "ExpiresIn": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "TokenType": {
+                      "type": "string"
+                    },
+                    "RefreshToken": {
+                      "type": "string"
+                    },
+                    "IdToken": {
+                      "type": "string"
+                    },
+                    "user": {
+                      "type": "object",
+                      "properties": {
+                        "createdAt": {
+                          "type": "string"
+                        },
+                        "updatedAt": {
+                          "type": "string"
+                        },
+                        "id": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "email": {
+                          "type": "string"
+                        },
+                        "user_account_token": {
+                          "type": "string",
+                          "format": "nullable"
+                        },
+                        "status_id": {
+                          "type": "string"
+                        },
+                        "user_role_id": {
+                          "type": "string"
+                        },
+                        "failures": {
+                          "type": "integer",
+                          "format": "int32"
+                        },
+                        "lockout_expiry": {
+                          "type": "string",
+                          "format": "nullable"
+                        },
+                        "verify_token": {
+                          "type": "string"
+                        },
+                        "verify_expiry": {
+                          "type": "string"
+                        },
+                        "created_by": {
+                          "type": "string"
+                        },
+                        "updated_by": {
+                          "type": "string",
+                          "format": "nullable"
+                        },
+                        "status": {
+                          "type": "string"
+                        },
+                        "practitioner_id": {
+                          "type": "string"
+                        },
+                        "fullname": {
+                          "type": "string"
+                        },
+                        "roleId": {
+                          "type": "string"
+                        },
+                        "userRole": {
+                          "type": "string"
+                        },
+                        "practitionerFullName": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed to login",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "statusCode": {
+                  "type": "integer",
+                  "default": 400
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/HealthPractitionerCarer/getPractitionerCareUnits":{
+      "post": {
+        "tags": [
+          "HealthPractitionerCarer"
+        ],
+        "summary": "Get Practitioner Care Units",
+        "parameters": [
+          {
+            "name": "Body Parameters",
+            "in": "body",
+            "description": "Body parameters for getting practitioner care units",
+            "schema": {
+              "$ref": "#/definitions/getPractitionerCareUnitsBodyParam"
+            }
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Fetch practitioner care unit details",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example":"care unit data fetch successful"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "care_units": {
+                      "type": "array",
+                      "example":[{"id":"1","value":"Royal Adelaide Hospital","defaultCareLocation":true}]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed to fetch",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "statusCode": {
+                  "type": "integer",
+                  "default": 400
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/diagnosis/list":{
+      "get": {
+        "tags": [
+          "Diagnosis"
+        ],
+        "summary": "Get product list",
+        "security": [{ "Bearer": [] }],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Fetch products",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example":"Products Listed successfully"
+                },
+                "data": {
+                  "type": "array",
+                  "example":[
+                    {
+                        "id": "1",
+                        "code": "hepc",
+                        "name": "Chronic Hepatitis C Infection",
+                        "description": "Hepatitis C",
+                        "details": "",
+                        "created_by": "1",
+                        "updated_by": null,
+                        "createdAt": "2022-10-26T13:07:51.064Z",
+                        "updatedAt": "2022-10-26T13:07:51.064Z"
+                    }
+                ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed to list products",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "statusCode": {
+                  "type": "integer",
+                  "default": 400
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/patientMedication/{patientId}":{
+      "get": {
+        "tags": [
+          "Patient"
+        ],
+        "summary": "Get Patient medication",
+        "parameters": [
+          {
+            "name": "patientId",
+            "in": "path",
+            "description": "Id of the patient",
+            "required": true,
+            "schema": {
+              "type":"integer",
+              "format":"int"
+            }
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Fetch patient medication details",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example":"patient medication fetched successfully"
+                },
+                "data": {
+                  "type": "array",
+                  "example":[
+                    {
+                      "id": "71",
+                      "patient_id": "2"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed to fetch patient mdeication details",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "statusCode": {
+                  "type": "integer",
+                  "default": 400
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/treatmentPlan/fetch/11":{
+      "get": {
+        "tags": [
+          "Treatment"
+        ],
+        "summary": "Get Treatment plan by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of the patient",
+            "required": true,
+            "schema": {
+              "type":"integer",
+              "format":"int"
+            }
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "List treatment plan details",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example":"Treatment Plan and Tasks fetched successfully"
+                },
+                "data": {
+                  "type": "array",
+                  "example": [
+                    {
+                      "id": "11",
+                      "name": "Test",
+                      "start_date": null,
+                      "approval_date": null
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed to fetch patient mdeication details",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "statusCode": {
+                  "type": "integer",
+                  "default": 400
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/treatment_template/listActive":{
+      "get": {
+        "tags": [
+          "Treatment"
+        ],
+        "summary": "List active treatment templates",
+        "security": [{ "Bearer": [] }],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "List active treatment templates",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example":"successfully listed treatment templates"
+                },
+                "data": {
+                  "type": "array",
+                  "example": [
+                    {
+                      "id": "19",
+                      "plan_no": "PROSTATE CANCER RADIOTHERAPY",
+                      "name": "Radiotherapy",
+                      "duration": null,
+                      "description": "Prostate cancer Radiotherapy"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed to list treatment templates",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "statusCode": {
+                  "type": "integer",
+                  "default": 400
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "responses": {},
+  "parameters": {},
+  "securityDefinitions": {
+    "Bearer": {
+      "type": "apiKey",
+      "description": "# User Authentication\n\nUse **Bearer** before the token\n",
+      "in": "header",
+      "name": "Authorization"
+    }
+  },
+  "definitions": {
+    "LoginCredentials":{
+      "type": "object",
+      "required": [
+        "username",
+        "password"
+      ],
+      "properties": {
+        "username": {
+          "type": "string",
+          "example": "USERNAME"
+        },
+        "password": {
+          "type": "string",
+          "example": "PASSWORD"
+        }
+      }
+    },
+    "getPractitionerCareUnitsBodyParam":{
+      "type": "object",
+      "required": [
+        "practitioner_id"
+      ],
+      "properties": {
+        "practitioner_id": {
+          "type": "string",
+          "example": "PRACTITIONER_ID"
+        }
+      }
+    }
+  },
+  "tags": []
+}
