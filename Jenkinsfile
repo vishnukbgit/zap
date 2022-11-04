@@ -5,13 +5,13 @@ pipeline{
             steps {
                 sh "pwd"
                 sh "ls -ls"
-                sh """echo DEBUG - mkdir -p $PWD/out \
-			mkdir -p $PWD/out
+                sh """echo DEBUG - mkdir -p ${WORKSPACE}/out \
+			mkdir -p ${WORKSPACE}/out
 
-			echo DEBUG - chmod 777 $PWD/out \
-			chmod 777 $PWD/out \
-			test -d ${PWD}/out \
-  			&& docker run -v ${pwd}/out:/zap/wrk/:rw -t owasp/zap2docker-live zap-api-scan.py -f openapi -r zap_scan_report.html  """
+			echo DEBUG - chmod 777 ${WORKSPACE}/out \
+			chmod 777 ${WORKSPACE}/out \
+			test -d ${WORKSPACE}/out \
+  			&& docker run -v ${WORKSPACE}/out:/zap/wrk/:rw -t owasp/zap2docker-live zap-api-scan.py -t swagger.json -f openapi -g gen.conf -r testreport.html"""
 
                 //sh "aws s3 cp testreport.html s3://vishnu-test-s3 "
             }  
