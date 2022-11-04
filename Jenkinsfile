@@ -10,7 +10,6 @@ pipeline{
 
 			echo DEBUG - chmod 777 ${WORKSPACE}/out \
 			chmod 777 ${WORKSPACE}/out \
-			test -d ${WORKSPACE}/out \
             cp swagger.json ${WORKSPACE}/out/swagger.json \
   			docker run -v ${WORKSPACE}/out:/zap/wrk/:rw -t owasp/zap2docker-weekly zap-api-scan.py -t swagger.json -f openapi -g gen.conf -r testreport.html"""
 
