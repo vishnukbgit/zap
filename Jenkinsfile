@@ -5,14 +5,7 @@ pipeline{
             steps {
                 sh "pwd"
                 sh "ls -ls"
-                sh """#!/usr/bin/env bash
-
-			docker rm $(docker ps -a -f status=exited -q)
-			# docker rmi $(docker images --filter "dangling=true" -q --no-trunc)
-
-			docker pull owasp/zap2docker-live
-
-			echo DEBUG - mkdir -p $PWD/out
+                sh """echo DEBUG - mkdir -p $PWD/out
 			mkdir -p $PWD/out
 
 			echo DEBUG - chmod 777 $PWD/out
