@@ -5,11 +5,11 @@ pipeline{
             steps {
                 sh "pwd"
                 sh "ls -ls"
-                sh """echo DEBUG - mkdir -p $PWD/out
+                sh """echo DEBUG - mkdir -p $PWD/out \
 			mkdir -p $PWD/out
 
-			echo DEBUG - chmod 777 $PWD/out
-			chmod 777 $PWD/out
+			echo DEBUG - chmod 777 $PWD/out \
+			chmod 777 $PWD/out \
 
 			test -d ${PWD}/out \
   			&& docker run -v $(pwd)/out:/zap/wrk/:rw -t owasp/zap2docker-live zap-api-scan.py -f openapi -d -r zap_scan_report.html  """
