@@ -3,6 +3,7 @@ pipeline{
     stages {
         stage('Test in ZAP') {
             steps {
+                cleanWs()
                 sh "pwd"
                 sh "ls -ls"
                 sh """echo DEBUG - mkdir -p ${WORKSPACE}/out \
