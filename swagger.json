@@ -215,6 +215,268 @@
         }
       }
     },
+    "/forgotPassword":{
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Send confirmation code request",
+        "parameters": [
+          {
+            "name": "Body Parameters",
+            "in": "body",
+            "description": "Body parameter for requesting confirmation",
+            "schema": {
+              "type": "object",
+              "properties":{
+                "username":{
+                  "type":"string"
+                }
+              }
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "forgot password confirmation send successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type":"string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed to send confirmation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "statusCode": {
+                  "type": "integer",
+                  "default": 400
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/confirmForgotPassword":{
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "reset password",
+        "parameters": [
+          {
+            "name": "Body Parameters",
+            "in": "body",
+            "description": "Body parameter for reset password",
+            "schema": {
+              "type": "object",
+              "properties":{
+                "confirmationCode":{
+                  "type":"string"
+                },
+                "password":{
+                  "type":"string"
+                },
+                "username":{
+                  "type":"string"
+                }
+              }
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "password reset successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message":{
+                  "type":"string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed to reset password",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "statusCode": {
+                  "type": "integer",
+                  "default": 400
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/respondToAuthChallenge":{
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Respond to authentication challenge for reset password",
+        "parameters": [
+          {
+            "name": "Body Parameters",
+            "in": "body",
+            "description": "Body parameter for auth challenge",
+            "schema": {
+              "type": "object",
+              "properties":{
+                "session":{
+                  "type":"string"
+                },
+                "newPassword":{
+                  "type":"string"
+                },
+                "username":{
+                  "type":"string"
+                }
+              }
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "forgot password confirmation send successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "AccessToken": {
+                      "type": "string"
+                    },
+                    "ExpiresIn": {
+                      "type": "integer"
+                    },
+                    "TokenType": {
+                      "type": "string"
+                    },
+                    "RefreshToken": {
+                      "type": "string"
+                    },
+                    "IdToken": {
+                      "type": "string"
+                    },
+                    "user": {
+                      "type": "object",
+                      "properties": {
+                        "createdAt": {
+                          "type": "string"
+                        },
+                        "updatedAt": {
+                          "type": "string"
+                        },
+                        "id": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "email": {
+                          "type": "string"
+                        },
+                        "user_account_token": {
+                          "type": "string"
+                        },
+                        "status_id": {
+                          "type": "string"
+                        },
+                        "user_role_id": {
+                          "type": "string"
+                        },
+                        "failures": {
+                          "type": "string"
+                        },
+                        "lockout_expiry": {
+                          "type": "string"
+                        },
+                        "verify_token": {
+                          "type": "string"
+                        },
+                        "verify_expiry": {
+                          "type": "string"
+                        },
+                        "created_by": {
+                          "type": "string"
+                        },
+                        "updated_by": {
+                          "type": "string"
+                        },
+                        "tenant_id": {
+                          "type": "string"
+                        },
+                        "status": {
+                          "type": "string"
+                        },
+                        "practitioner_id": {
+                          "type": "string"
+                        },
+                        "fullname": {
+                          "type": "string"
+                        },
+                        "roleId": {
+                          "type": "string"
+                        },
+                        "userRole": {
+                          "type": "string"
+                        },
+                        "practitionerFullName": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed to auth challenge",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "statusCode": {
+                  "type": "integer",
+                  "default": 400
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/HealthPractitionerCarer/getPractitionerCareUnits":{
       "post": {
         "tags": [
@@ -483,6 +745,30 @@
           "HealthPractitionerCarer"
         ],
         "summary": "Get patient practitioner association details",
+        "parameters": [
+          {
+            "name": "patient_id",
+            "in": "query",
+            "description": "Id of the patient",
+            "required": true,
+            "default":1,
+            "schema": {
+              "type":"integer",
+              "format":"int"
+            }
+          },
+          {
+            "name": "patient_diagnosis_id",
+            "in": "query",
+            "description": "Id of the patient diagnosis",
+            "required": true,
+            "allowEmptyValue":true,
+            "schema": {
+              "type":"integer",
+              "format":"int"
+            }
+          }
+        ],
         "security": [{ "Bearer": [] }],
         "produces": [
           "application/json"
@@ -516,6 +802,154 @@
           },
           "400": {
             "description": "Failed to fetch patient practitioner association details",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "statusCode": {
+                  "type": "integer",
+                  "default": 400
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref":"#/definitions/Unauthorized"
+          }
+        }
+      }
+    },
+    "/Document/generatePresignedURL":{
+      "post":{
+        "tags": [
+          "Patient"
+        ],
+        "summary": "generate pre signed url",
+        "parameters":[
+          {
+            "name": "Body Parameters",
+            "in": "body",
+            "description": "Body parameters for generating pre signed url",
+            "schema": {
+              "type":"object",
+              "properties":{
+                "filename":{
+                  "type":"string"
+                }
+              }
+            }
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Generated pre signed URL",
+            "schema": {
+              "type":"object",
+              "properties":{
+                "message":{
+                  "type":"string"
+                },
+                "data":{
+                  "type":"object",
+                  "properties":{
+                    "status":{
+                      "type":"integer"
+                    },
+                    "message":{
+                      "type":"string"
+                    },
+                    "data":{
+                      "type":"object",
+                      "properties":{
+                        "url":{
+                          "type":"string"
+                        },
+                        "fields":{
+                          "type":"object",
+                          "properties":{
+                            "key":{
+                              "type":"string"
+                            },
+                            "bucket":{
+                              "type":"string"
+                            },
+                            "X-Amz-Algorithm":{
+                              "type":"string"
+                            },
+                            "X-Amz-Credential":{
+                              "type":"string"
+                            },"X-Amz-Date":{
+                              "type":"string"
+                            },
+                            "Policy":{
+                              "type":"string"
+                            },
+                            "X-Amz-Signature":{
+                              "type":"string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed to generate pre signed URL",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "statusCode": {
+                  "type": "integer",
+                  "default": 400
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref":"#/definitions/Unauthorized"
+          }
+        }
+      }
+    },
+    "/HealthPractitionerCarer/getMyPatients":{
+      "post":{
+        "tags": [
+          "HealthPractitionerCarer"
+        ],
+        "summary": "Get my patients",
+        "parameters":[
+          {
+            "name": "Body Parameters",
+            "in": "body",
+            "description": "Body parameter for getting my patients",
+            "schema": {
+              "$ref": "#/definitions/GetMyPatientsBodyParams"
+            }
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successfully fetched my patients",
+            "schema": {"$ref":"#/definitions/GetMyPatientsSuccessResponse" }
+          },
+          "400": {
+            "description": "Failed to get patients",
             "schema": {
               "type": "object",
               "properties": {
@@ -690,6 +1124,52 @@
           },
           "400": {
             "description": "Failed to add practitioner",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "statusCode": {
+                  "type": "integer",
+                  "default": 400
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref":"#/definitions/Unauthorized"
+          }
+        }
+      }
+    },
+    "/HealthPractitionerCarer/getPatientRecipients":{
+      "post":{
+        "tags": [
+          "HealthPractitionerCarer"
+        ],
+        "summary": "Get patients recipients",
+        "parameters":[
+          {
+            "name": "Body Parameters",
+            "in": "body",
+            "description": "Body parameter for get patient recipients",
+            "schema": {
+              "$ref": "#/definitions/GetPatientRecipientsBodyParams"
+            }
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successfully fetched my patients",
+            "schema": {"$ref":"#/definitions/GetPatientRecipientsSuccessResponse" }
+          },
+          "400": {
+            "description": "Failed to get patients",
             "schema": {
               "type": "object",
               "properties": {
@@ -1072,6 +1552,61 @@
           },
           "400": {
             "description": "Failed to add care team",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "statusCode": {
+                  "type": "integer",
+                  "default": 400
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref":"#/definitions/Unauthorized"
+          }
+        }
+      }
+    },
+    "/v1/careTeam/fetchByPost":{
+      "post": {
+        "tags": [
+          "HealthPractitionerCarer"
+        ],
+        "summary": "fetch care team by post",
+        "parameters": [
+          {
+            "name": "Body Parameters",
+            "in": "body",
+            "description": "Body parameter for fetch care team by post",
+            "required": true,
+            "schema": {
+              "type":"object",
+              "properties":{
+                "treatment_options_id":{
+                  "type":"array",
+                  "items":{
+                    "type":"integer"
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Care Team fetch successful",
+            "schema": {"$ref":"#/definitions/FetchCareTeamByPostSuccessResponse"}
+          },
+          "400": {
+            "description": "Failed to fetch care team by post",
             "schema": {
               "type": "object",
               "properties": {
@@ -1560,7 +2095,7 @@
         }
       }
     },
-    "/v1/treatmentPlan/fetch/{patientId}":{
+    "/v1/treatmentPlan/fetch/{treatmentPlanID}":{
       "get": {
         "tags": [
           "Treatment"
@@ -1568,9 +2103,9 @@
         "summary": "Get Treatment plan by ID",
         "parameters": [
           {
-            "name": "id",
+            "name": "treatmentPlanID",
             "in": "path",
-            "description": "Id of the patient",
+            "description": "Id of the treatment plan",
             "required": true,
             "schema": {
               "type":"integer",
@@ -1644,7 +2179,7 @@
         "summary": "Get Treatment plan by query param",
         "parameters": [
           {
-            "name": "id",
+            "name": "patient_id",
             "in": "query",
             "description": "Id of the patient",
             "required": true,
@@ -1687,6 +2222,75 @@
                       }
                     }
                   }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed to fetch treatment plan and tasks",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "statusCode": {
+                  "type": "integer",
+                  "default": 400
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref":"#/definitions/Unauthorized"
+          }
+        }
+      }
+    },
+    "/v1/treatmentPlan/fetchByResposibility":{
+      "get": {
+        "tags": [
+          "Treatment"
+        ],
+        "summary": "Get Treatment plan by query param",
+        "parameters": [
+          {
+            "name": "patient_id",
+            "in": "query",
+            "description": "Id of the patient",
+            "required": true,
+            "schema": {
+              "type":"integer",
+              "format":"int"
+            }
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "List treatment plan details",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                    "type":"string"
+                },
+                "data": {
+                    "type":"object",
+                    "properties":{
+                        "status": {
+                            "type":"integer"
+                        },
+                        "message": {
+                            "type":"string"
+                        },
+                        "data": {
+                            "type":"array"
+                        }
+                    }
                 }
               }
             }
@@ -1879,6 +2483,50 @@
           },
           "400": {
             "description": "Failed to add treatment template ",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "statusCode": {
+                  "type": "integer",
+                  "default": 400
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref":"#/definitions/Unauthorized"
+          }
+        }
+      }
+    },
+    "/v1/treatment_template/remove/{Id}":{
+      "delete": {
+        "tags": [
+          "Treatment"
+        ],
+        "summary": "Delete Treatment template",
+        "parameters": [
+          {
+            "name":"Id",
+            "in":"path",
+            "description": "Id of the treatment template",
+            "type":"string"
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successfully soft deleted Treatment template",
+            "schema": {"$ref":"#/definitions/DeleteTreatmentTemplateSuccessResponse"}
+          },
+          "400": {
+            "description": "Failed to remove treatment template",
             "schema": {
               "type": "object",
               "properties": {
@@ -2175,6 +2823,318 @@
         }
       }
     },
+    "/v1/treatmentOptionsTemplate/fetch":{
+      "get": {
+        "tags": [
+          "Treatment"
+        ],
+        "summary": "Fetch treatment options template",
+        "parameters": [
+          {
+            "name": "diagnosis_treatment_options_id",
+            "in": "query",
+            "description": "diagnosis treatment option id",
+            "required": true,
+            "type":"string"
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Treatment Options Template fetched successfully",
+            "schema": {"$ref":"#/definitions/TreatmentOptionsFetchSuccessResponse"}
+          },
+          "400": {
+            "description": "Failed to fetch treatment options",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "statusCode": {
+                  "type": "integer",
+                  "default": 400
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref":"#/definitions/Unauthorized"
+          }
+        }
+      }
+    },
+    "/v1/treatmentOptionsResponse/fetch":{
+      "get": {
+        "tags": [
+          "Treatment"
+        ],
+        "summary": "Fetch treatment options template",
+        "parameters": [
+          {
+            "name": "patient_diagnosis_id",
+            "in": "query",
+            "description": "Id of the patient diagnosis",
+            "required": true,
+            "type":"string"
+          },
+          {
+            "name": "treatment_options_template_id",
+            "in": "query",
+            "description": "Id of the treatment option template",
+            "required": true,
+            "type":"string"
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Treatment Options Response fetched successfully",
+            "schema": {"$ref":"#/definitions/TreatmentOptionsResponseFetchSuccessResponse"}
+          },
+          "400": {
+            "description": "Failed to fetch treatment option response",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "statusCode": {
+                  "type": "integer",
+                  "default": 400
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref":"#/definitions/Unauthorized"
+          }
+        }
+      }
+    },
+    "/v1/treatmentOptionsResponse":{
+      "post": {
+        "tags": [
+          "Treatment"
+        ],
+        "summary": "Add treatment option response",
+        "parameters": [
+          {
+            "name": "Body Parameters",
+            "in": "body",
+            "description": "Body parameter for adding treatment option response",
+            "schema": {
+              "$ref": "#/definitions/AddTreatmentOptionResponseBodyParams"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Treatment Options Response added successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message":{
+                  "type":"string"
+                },
+                "data":{
+                  "type":"object",
+                  "properties":{
+                    "status":{
+                     "type":"integer",
+                     "default":200
+                   },
+                    "message":{
+                     "type":"string"
+                   },
+                    "data":{
+                     "type":"object",
+                     "properties":{
+                      "id":{
+                        "type":"string"
+                      },
+                      "patient_diagnosis_id":{
+                        "type":"string"
+                      },
+                      "diagnosis_treatment_options_id":{
+                        "type":"string"
+                      },
+                      "treatment_options_template_id":{
+                        "type":"string"
+                      },
+                      "template_response":{
+                        "type":"object",
+                        "properties":{
+                          "dateOfDiagnosis":{
+                           "type":"string"
+                         },
+                          "prostateAndPelvicNodes":{
+                           "type":"string"
+                         },
+                          "prostateAndPelvicEndDate":{
+                           "type":"string"
+                         },
+                          "prostate":{
+                           "type":"string"
+                         },
+                          "prostateEndDate":{
+                           "type":"string"
+                         },
+                          "brachyTherapy":{
+                           "type":"string"
+                         },
+                          "brachyTherapyEndDate":{
+                           "type":"string"
+                         },
+                          "radiationDose":{
+                           "type":"string"
+                         }
+                       }
+                      },
+                      "created_by":{
+                        "type":"string"
+                      },
+                      "createdAt":{
+                        "type":"string"
+                      },
+                      "updated_by":{
+                        "type":"string"
+                      },
+                      "updatedAt":{
+                        "type":"string"
+                      }
+                    }
+                   }
+                  }
+                }
+              }
+            } 
+          },
+          "400": {
+            "description": "Failed to refresh token",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "statusCode": {
+                  "type": "integer",
+                  "default": 400
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/treatmentOptionsResponse/update/{Id}":{
+      "put": {
+        "tags": [
+          "Treatment"
+        ],
+        "summary": "Update treatment option response",
+        "parameters": [
+          {
+            "name":"Id",
+            "in":"path",
+            "description": "Id of the treatment option response",
+            "type":"string"
+          },
+          {
+            "name": "Body Parameters",
+            "in": "body",
+            "description": "Body parameter for updating treatment option response",
+            "required": true,
+            "schema": {
+              "type":"object",
+              "properties":{
+                "diagnosis_treatment_options_id":{
+                  "type": "string"
+                },
+                "patient_diagnosis_id":{
+                  "type": "string"
+                },
+                "template_response":{
+                  "type": "object",
+                  "properties": {
+                    "dateOfDiagnosis":{
+                     "type": "string"
+                   },
+                    "prostateAndPelvicNodes":{
+                     "type": "string"
+                   },
+                    "prostateAndPelvicEndDate":{
+                     "type": "string"
+                   },
+                    "prostate":{
+                     "type": "string"
+                   },
+                    "prostateEndDate":{
+                     "type": "string"
+                   },
+                    "brachyTherapy":{
+                     "type": "string"
+                   },
+                    "brachyTherapyEndDate":{
+                     "type": "string"
+                   },
+                    "radiationDose":{
+                     "type": "string"
+                   }
+                 }
+                },
+                "treatment_options_template_id":{
+                  "type": "string"
+                },
+                "updated_by":{
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": " Treatment template task updated successfully",
+            "schema": {"$ref":"#/definitions/UpdateTreatmentTemplateTaskSuccessResponse"}
+          },
+          "400": {
+            "description": "Failed to update treatment template task",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "statusCode": {
+                  "type": "integer",
+                  "default": 400
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref":"#/definitions/Unauthorized"
+          }
+        }
+      }
+    },
     "/v1/treatmentOptionsTemplate/remove/{Id}":{
       "delete": {
         "tags": [
@@ -2200,6 +3160,246 @@
           },
           "400": {
             "description": "Failed to remove treatment option template",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "statusCode": {
+                  "type": "integer",
+                  "default": 400
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref":"#/definitions/Unauthorized"
+          }
+        }
+      }
+    },
+    "/v1/treatmentOptionsTemplate":{
+      "post": {
+        "tags": [
+          "Treatment"
+        ],
+        "summary": "Add treatment option template",
+        "parameters": [
+          {
+            "name": "Body Parameters",
+            "in": "body",
+            "description":"Body parameters for adding treatment option template",
+            "schema": {
+              "$ref": "#/definitions/AddTreatmentOptionTemplateBodyParams"
+            }
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Treatment Options Template added successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message":{
+                  "type":"string"
+                },
+                "data":{
+                  "type":"object",
+                  "properties":{
+                    "status":{
+                     "type":"integer",
+                     "default":200
+                    },
+                    "message":{
+                     "type":"string"
+                    },
+                    "data":{
+                      "type":"object",
+                      "properties":{
+                        "id":{
+                          "type":"string"
+                        },
+                        "diagnosis_treatment_options_id":{
+                          "type":"string"
+                        },
+                        "version":{
+                          "type":"string"
+                        },
+                        "template":{"$ref":"#/definitions/templateArrayData"},
+                        "tenant_id":{
+                          "type":"string"
+                        },
+                        "deletedAt":{
+                          "type":"string"
+                        },
+                        "created_by":{
+                          "type":"string"
+                        },
+                        "createdAt":{
+                          "type":"string"
+                        },
+                        "updated_by":{
+                          "type":"string"
+                        },
+                        "updatedAt":{
+                          "type":"string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed to add Treatment Options Template",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message":{
+                  "type":"string"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref":"#/definitions/Unauthorized"
+          }
+        }
+      }
+    },
+    "/v1/treatmentOptionsTemplate/update/{Id}":{
+      "put":{
+        "tags": [
+          "Treatment"
+        ],
+        "summary": "Update treatment option template",
+        "parameters": [
+          {
+            "name":"Id",
+            "in":"path",
+            "description": "Id of the treatment option template",
+            "type":"string"
+          },
+          {
+            "name": "Body Parameters",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/UpdateTreatmentOptionTemplateBodyParams"
+            }
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Treatment Options Template updated successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object",
+                  "properties":{
+                    "status":{
+                      "type": "integer"
+                    },
+                    "message":{
+                      "type": "string"
+                    },
+                    "data":{
+                      "type":"object",
+                      "properties":{
+                        "generatedMaps":{
+                         "type": "array"
+                       },
+                        "raw":{
+                          "type":"array",
+                          "items":{
+                            "type":"object",
+                            "properties": {
+                              "id":{
+                               "type": "string"
+                             },
+                              "diagnosis_treatment_options_id":{
+                               "type": "string"
+                             },
+                              "version":{
+                               "type": "string"
+                             },
+                              "template":{
+                               "type":"array",
+                               "items":{
+                                 "type":"object",
+                                 "properties":{
+                                   "title":{
+                                    "type": "string"
+                                  },
+                                   "path":{
+                                    "type": "string"
+                                  },
+                                   "pathId":{
+                                    "type": "string"
+                                  },
+                                   "options":{
+                                    "type":"object",
+                                    "properties":{
+                                      "paddingTop": {"$ref":"#/definitions/optionObjectData"},
+                                      "paddingBottom": {"$ref":"#/definitions/optionObjectData"},
+                                      "paddingLeft": {"$ref":"#/definitions/optionObjectData"},
+                                      "paddingRight": {"$ref":"#/definitions/optionObjectData"},
+                                      "flexDirection": {"$ref":"#/definitions/optionObjectData"}
+                                    }
+                                  },
+                                   "children":{
+                                    "type":"array",
+                                    "items":{"$ref":"#/definitions/childerArrayData"}
+                                  }
+                                }
+                               }
+                              },
+                              "tenant_id":{
+                               "type": "string"
+                             },
+                              "deletedAt":{
+                               "type": "string"
+                             },
+                              "created_by":{
+                               "type": "string"
+                             },
+                              "createdAt":{
+                               "type": "string"
+                             },
+                              "updated_by":{
+                               "type": "string"
+                             },
+                              "updatedAt":{
+                               "type": "string"
+                             }
+                           }
+                          }
+                        },
+                        "affected":{
+                         "type":"integer"
+                        }
+                     }
+                    }
+                 }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed to update treatment option template",
             "schema": {
               "type": "object",
               "properties": {
@@ -2440,6 +3640,345 @@
         }
       }
     },
+    "/v1/treatmentPlanAndTasks/update/{Id}":{
+      "put": {
+        "tags": [
+          "Treatment"
+        ],
+        "summary": "Update treatment plan and task",
+        "parameters": [
+          {
+            "name": "Id",
+            "in": "path",
+            "description":"Id of the template plan",
+            "required":true,
+            "schema": {
+              "type":"string"
+            }
+          },
+          {
+            "name":"Body Parameters",
+            "in":"body",
+            "description":"Body parameter for updating treatment plan and task",
+            "required":true,
+            "schema":{
+              "type":"object",
+              "properties":{
+                "treatment_plan":{
+                  "type":"object",
+                  "properties":{
+                    "name":{
+                     "type":"string"
+                   },
+                    "start_date":{
+                     "type":"string"
+                   },
+                    "status_id":{
+                     "type":"string"
+                   },
+                    "patient_id":{
+                     "type":"string"
+                   },
+                    "created_by": {
+                     "type":"string"
+                   },
+                    "approver_id":{
+                     "type":"string"
+                   },
+                    "initiator_id":{
+                     "type":"string"
+                   },
+                    "tenant_id":{
+                     "type":"string"
+                   },
+                    "diagnosis_treatment_options_id":{
+                     "type":"string"
+                   }
+                  }
+                },
+                "created_tasks":{
+                  "type":"array",
+                  "items":{
+                    "type":"object",
+                    "properties":{
+                      "completed_flag":{
+                        "type":"boolean"
+                      },
+                      "created_by":{
+                        "type":"string"
+                      },
+                      "createdAt":{
+                        "type":"string"
+                      },
+                      "custom_flag":{
+                        "type":"integer"
+                      },
+                      "description":{
+                        "type":"string"
+                      },
+                      "due_days":{
+                        "type":"integer"
+                      },
+                      "due_date":{
+                        "type":"string"
+                      },
+                      "event_type_id":{
+                        "type":"string"
+                      },
+                      "name":{
+                        "type":"string"
+                      },
+                      "owner_id":{
+                        "type":"string"
+                      },
+                      "responsibility_id":{
+                        "type":"string"
+                      },
+                      "task_location_id":{
+                        "type":"string"
+                      },
+                      "tenant_id":{
+                        "type":"string"
+                      },
+                      "survey_template_id":{
+                        "type":"string"
+                      },
+                      "task_completion_date":{
+                        "type":"string"
+                      },
+                      "comments":{
+                        "type":"string"
+                      }
+                    }
+                  }
+                },
+                "updated_tasks":{
+                  "type":"array"
+                },
+                "deleted_tasks":{
+                  "type":"array"
+                }
+              }
+            }
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Treatment Plan and Tasks updated successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message":{
+                  "type":"string"
+                },
+                "data":{
+                  "type":"object",
+                  "properties":{
+                    "treatmentPlanResponse":{
+                      "type":"object",
+                      "properties":{
+                        "status":{
+                          "type":"integer",
+                          "default":200
+                        },
+                        "message":{
+                          "type":"string"
+                        },
+                        "data":{
+                          "type":"object",
+                          "properties":{
+                            "generatedMaps":{
+                              "type":"array"
+                            },
+                            "raw":{
+                              "type":"array",
+                              "items":{
+                                "type":"object",
+                                "properties":{
+                                  "id":{
+                                    "type":"string"
+                                  },
+                                  "name":{
+                                    "type":"string"
+                                  },
+                                  "start_date":{
+                                    "type":"string"
+                                  },
+                                  "approval_date":{
+                                    "type":"string"
+                                  },
+                                  "review_due_date":{
+                                    "type":"string"
+                                  },
+                                  "status_id":{
+                                    "type":"string"
+                                  },
+                                  "drug_interaction_status_id":{
+                                    "type":"string"
+                                  },
+                                  "createdAt":{
+                                    "type":"string"
+                                  },
+                                  "updatedAt":{
+                                    "type":"string"
+                                  },
+                                  "created_by":{
+                                    "type":"string"
+                                  },
+                                  "updated_by":{
+                                    "type":"string"
+                                  },
+                                  "patient_id":{
+                                    "type":"string"
+                                  },
+                                  "assessment_id":{
+                                    "type":"string"
+                                  },
+                                  "approver_id":{
+                                    "type":"string"
+                                  },
+                                  "initiator_id":"2",
+                                  "tenant_id":{
+                                    "type":"string"
+                                  },
+                                  "diagnosis_treatment_options_id":{
+                                    "type":"string"
+                                  },
+                                  "patient_diagnosis_id":{
+                                    "type":"string"
+                                  }
+                                }
+                              }
+                            },
+                            "affected":{
+                              "type":"integer"
+                            }
+                          }
+                        }
+                     }
+                    },
+                    "treatmentTaskCreateResponse":{
+                      "type":"object",
+                      "properties":{
+                        "status":{
+                          "type":"integer",
+                          "default":200
+                        },
+                        "message":{
+                          "type":"string"
+                        },
+                        "data":{
+                          "type":"array",
+                          "items":{
+                            "type":"object",
+                            "properties": {
+                              "id":{
+                                "type":"string"
+                              },
+                              "name":{
+                                "type":"string"
+                              },
+                              "description":{
+                                "type":"string"
+                              },
+                              "due_days":{
+                                "type":"integer"
+                              },
+                              "responsibility_id":{
+                                "type":"string"
+                              },
+                              "owner_id":{
+                                "type":"string"
+                              },
+                              "event_type_id":{
+                                "type":"string"
+                              },
+                              "commencement_milestone_flag":{
+                                "type":"string"
+                              },
+                              "recurring":{
+                                "type":"string"
+                              },
+                              "drug_details":{
+                                "type":"string"
+                              },
+                              "sort_order":{
+                                "type":"string"
+                              },
+                              "treatment_id":{
+                                "type":"string"
+                              },
+                              "due_date":{
+                                "type":"string"
+                              },
+                              "task_completion_date":{
+                                "type":"string"
+                              },
+                              "task_location_id":{
+                                "type":"string"
+                              },
+                              "completed_flag":{
+                                "type":"boolean"
+                              },
+                              "custom_flag":{
+                                "type":"boolean"
+                              },
+                              "createdAt":{
+                                "type":"string"
+                              },
+                              "updatedAt":{
+                                "type":"string"
+                              },
+                              "created_by":{
+                                "type":"string"
+                              },
+                              "updated_by":{
+                                "type":"string"
+                              },
+                              "tenant_id":{
+                                "type":"string"
+                              },
+                              "survey_template_id":{
+                                "type":"string"
+                              },
+                              "comments":{
+                                "type":"string"
+                              }
+                            }
+                          }
+                        }
+                     }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed to add treatment plan and task",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "statusCode": {
+                  "type": "integer",
+                  "default": 400
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref":"#/definitions/Unauthorized"
+          }
+        }
+      }
+    },
     "/fetch/notes":{
       "post": {
         "tags": [
@@ -2641,6 +4180,345 @@
         }
       }
     },
+    "/tenant":{
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Create tenant",
+        "parameters": [
+          {
+            "name": "Body Parameters",
+            "in": "body",
+            "description":"Body parameter for creating tenant",
+            "schema": {
+              "type": "object",
+              "properties":{
+                "active_status": {
+                  "type":"boolean"
+                },
+                "name": {
+                  "type":"string"
+                },
+                "sub_domain": {
+                  "type":"string"
+                },
+                "created_by":{
+                  "type":"integer"
+                }
+              }
+            }
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Create Tenant response",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed to create tenant",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "statusCode": {
+                  "type": "integer",
+                  "default": 400
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref":"#/definitions/Unauthorized"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Update tenant",
+        "parameters": [
+          {
+            "name": "Body Parameters",
+            "in": "body",
+            "description":"Body parameter for updating tenant",
+            "schema": {
+              "type": "object",
+              "properties":{
+                "tenant_id": {
+                  "type":"string"
+                },
+                "active_status": {
+                  "type":"boolean"
+                },
+                "name": {
+                  "type":"string"
+                },
+                "sub_domain": {
+                  "type":"string"
+                },
+                "created_by":{
+                  "type":"integer"
+                }
+              }
+            }
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "update Tenant response",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "tenant_id": {
+                      "type": "string"
+                    },
+                    "active_status": {
+                      "type": "boolean"
+                    },
+                    "created_at": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "sub_domain": {
+                      "type": "string"
+                    },
+                    "updated_at": {
+                      "type": "string"
+                    },
+                    "created_by": {
+                      "type": "string"
+                    },
+                    "updated_by": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed to update tenant",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "statusCode": {
+                  "type": "integer",
+                  "default": 400
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref":"#/definitions/Unauthorized"
+          }
+        }
+      }
+    },
+    "/tenant/search":{
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "List Tenants",
+        "parameters": [
+          {
+            "name": "Body Parameters",
+            "in": "body",
+            "description": "Body parameter for listing tenants",
+            "required": true,
+            "schema": {
+              "type":"object",
+              "properties": {
+                "from": {
+                  "type": "integer"
+                },
+                "size": {
+                  "type": "integer"
+                },
+                "searchText": {
+                  "type": "string"
+                },
+                "searchField": {
+                  "type": "string"
+                },
+                "order": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "list tenants",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                      "type":"string"
+                  },
+                "data": {
+                      "type":"object",
+                      "properties":{
+                          "tenants":{
+                              "type":"array",
+                              "items":{
+                                  "type":"object",
+                                  "properties":{
+                                      "tenant_id": {
+                                          "type":"string"
+                                      },
+                                      "active_status": {
+                                          "type":"boolean"
+                                      },
+                                      "created_at": {
+                                          "type":"string"
+                                      },
+                                      "name": {
+                                          "type":"string"
+                                      },
+                                      "sub_domain": {
+                                          "type":"string"
+                                      },
+                                      "updated_at": {
+                                          "type":"string"
+                                      },
+                                      "created_by": {
+                                          "type":"string"
+                                      },
+                                      "updated_by": {
+                                          "type":"string"
+                                      }
+                                  }
+                              }
+                          },
+                          "totalCount": {
+                              "type":"integer"
+                          }
+                      }
+                  }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed to list tenants",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "statusCode": {
+                  "type": "integer",
+                  "default": 400
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref":"#/definitions/Unauthorized"
+          }
+        }
+      }
+    },
+    "/tenant/delete":{
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Delete tenant",
+        "parameters": [
+          {
+            "name": "Body Parameters",
+            "in": "body",
+            "description":"Body parameter for deleting tenant",
+            "schema": {
+              "type": "object",
+              "properties":{
+                "tenant_id":{
+                  "type":"string"
+                }
+              }
+            }
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Delete Tenant response",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed to create tenant",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "statusCode": {
+                  "type": "integer",
+                  "default": 400
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref":"#/definitions/Unauthorized"
+          }
+        }
+      }
+    },
     "/tenant/product/ListSubscription/{tenant_id}":{
       "get": {
         "tags": [
@@ -2694,6 +4572,120 @@
           },
           "400": {
             "description": "Failed to list product subscriptions",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "statusCode": {
+                  "type": "integer",
+                  "default": 400
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref":"#/definitions/Unauthorized"
+          }
+        }
+      }
+    },
+    "/tenant/AddTenantAdmin":{
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Add Tenant Admin",
+        "parameters": [
+          {
+            "name": "Body Parameters",
+            "in": "body",
+            "description":"Body parameter for add tenant admin",
+            "schema": {
+              "type": "object",
+              "properties":{
+                "name":{
+                  "type":"string"
+                },
+                "email":{
+                  "type":"string"
+                },
+                "password":{
+                  "type":"string"
+                },
+                "tenant_id":{
+                  "type":"string"
+                }
+              }
+            }
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Add Tenant admin",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                    "type":"string"
+                },
+                "data": {
+                    "createdAt": {
+                        "type":"string"
+                    },
+                    "updatedAt": {
+                        "type":"string"
+                    },
+                    "id": {
+                        "type":"string"
+                    },
+                    "name": {
+                        "type":"string"
+                    },
+                    "email": {
+                        "type":"string"
+                    },
+                    "user_account_token": {
+                        "type":"string"
+                    },
+                    "status_id": {
+                        "type":"string"
+                    },
+                    "user_role_id": {
+                        "type":"string"
+                    },
+                    "failures": {
+                        "type":"string"
+                    },
+                    "lockout_expiry": {
+                        "type":"string"
+                    },
+                    "verify_token": {
+                        "type":"string"
+                    },
+                    "verify_expiry": {
+                        "type":"string"
+                    },
+                    "created_by": {
+                        "type":"string"
+                    },
+                    "updated_by": {
+                        "type":"string"
+                    },
+                    "tenant_id": {
+                        "type":"string"
+                    }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed to create tenant",
             "schema": {
               "type": "object",
               "properties": {
@@ -3022,6 +5014,205 @@
         }
       }
     },
+    "/patientverify":{
+      "post":{
+        "tags": [
+          "Patient"
+        ],
+        "summary": "Verify patient",
+        "parameters": [
+          {
+            "name": "Body Parameters",
+            "in": "body",
+            "description": "Body parameters for verifying patient",
+            "schema": {
+              "$ref": "#/definitions/VerifyPatientBodyParams"
+            }
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success response for verify patient",
+            "schema": {
+              "$ref":"#/definitions/VerifyPatientSucess"
+            }
+          },
+          "400": {
+            "description": "Failed response for verify patient",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref":"#/definitions/Unauthorized"
+          }
+        }
+      }
+    },
+    "/forceChangePassword":{
+      "post":{
+        "tags": [
+          "Patient"
+        ],
+        "summary": "Force change password",
+        "parameters": [
+          {
+            "name": "Body Parameters",
+            "in": "body",
+            "description": "Body parameters for force change password",
+            "schema": {
+              "type": "object",
+              "properties":{
+                "newPassword": {
+                  "type":"string"
+                },
+                "token": {
+                  "type":"string"
+                }
+              }
+            }
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success response for force password change",
+            "schema": {
+              "type":"object",
+              "properties":{
+                "message": {
+                  "type":"string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed response for force password change",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref":"#/definitions/Unauthorized"
+          }
+        }
+      }
+    },
+    "/patient/{Id}":{
+      "get":{
+        "tags": [
+          "Patient"
+        ],
+        "summary": "Find details of the patient",
+        "parameters": [
+          {
+            "name": "patientId",
+            "in": "path",
+            "description": "Id of the patient"
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success response for get details",
+            "schema": {
+              "$ref":"#/definitions/GetPatientDetailsSuccessResponse"
+            }
+          },
+          "400": {
+            "description": "Failed response for get patient details",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example":"Failed to get patient details"
+                },
+                "statusCode": {
+                  "type": "integer",
+                  "default": 400
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref":"#/definitions/Unauthorized"
+          }
+        }
+      },
+      "put":{
+        "tags": [
+          "Patient"
+        ],
+        "summary": "Update details of the patient",
+        "parameters": [
+          {
+            "name": "patientId",
+            "in": "path",
+            "description": "Id of the patient"
+          },
+          {
+            "name": "Body Parameters",
+            "in": "body",
+            "description": "Body parameters for updating patient details",
+            "schema": {
+              "$ref": "#/definitions/UpdatePatientDetailsBodyParams"
+            }
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success response for update patient details",
+            "schema": {
+              "$ref":"#/definitions/UpdatePatientDetailsSuccessResponse"
+            }
+          },
+          "400": {
+            "description": "Failed response for update patient details",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example":"Failed to update patient details"
+                },
+                "statusCode": {
+                  "type": "integer",
+                  "default": 400
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref":"#/definitions/Unauthorized"
+          }
+        }
+      }
+    },
     "/patient/findoneall/{patientID}":{
       "get":{
         "tags": [
@@ -3054,6 +5245,368 @@
                 "message": {
                   "type": "string",
                   "example":"Failed to create patient"
+                },
+                "statusCode": {
+                  "type": "integer",
+                  "default": 400
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref":"#/definitions/Unauthorized"
+          }
+        }
+      }
+    },
+    "/patient/{patientId}/medication/{medicationId}":{
+      "delete":{
+        "tags": [
+          "Patient"
+        ],
+        "summary": "Delete patient medication",
+        "parameters":[
+          {
+            "name": "patientId",
+            "in": "path",
+            "description": "Id of the patient",
+            "type":"string",
+            "required": true
+          },
+          {
+            "name": "medicationId",
+            "in": "path",
+            "description": "Id of the patient medication",
+            "required": true,
+            "type":"string"
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "patient medication removed successfully",
+            "schema": {
+              "type":"object",
+              "properties":{
+                "message": {
+                  "type":"string"
+                },
+                "data": {
+                  "type":"object",
+                  "properties":{
+                    "success": {
+                      "type":"boolean"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed to remove patient medication",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "statusCode": {
+                  "type": "integer",
+                  "default": 400
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref":"#/definitions/Unauthorized"
+          }
+        }
+      }
+    },
+    "/verifyEmail":{
+      "post":{
+        "tags": [
+          "Patient"
+        ],
+        "summary": "Verify email address",
+        "parameters":[
+          {
+            "name": "Body Parameters",
+            "in": "body",
+            "description": "Body parameters for send verify email address E-Mail",
+            "schema": {
+              "type":"object",
+              "properties":{
+                "patientId":{
+                  "type":"string"
+                }
+              }
+            }
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "verification code send successfully",
+            "schema": {
+              "type":"object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed to send verification code",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "statusCode": {
+                  "type": "integer",
+                  "default": 400
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref":"#/definitions/Unauthorized"
+          }
+        }
+      }
+    },
+    "/verifyPhoneNumber":{
+      "post":{
+        "tags": [
+          "Patient"
+        ],
+        "summary": "Verify Phone number",
+        "parameters":[
+          {
+            "name": "Body Parameters",
+            "in": "body",
+            "description": "Body parameters for send OTP",
+            "schema": {
+              "type":"object",
+              "properties":{
+                "patientId":{
+                  "type":"string"
+                }
+              }
+            }
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "verification code send successfully",
+            "schema": {
+              "type":"object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed to send verification code",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "statusCode": {
+                  "type": "integer",
+                  "default": 400
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref":"#/definitions/Unauthorized"
+          }
+        }
+      }
+    },
+    "/validateEmail":{
+      "post":{
+        "tags": [
+          "Patient"
+        ],
+        "summary": "Validate email address",
+        "parameters":[
+          {
+            "name": "Body Parameters",
+            "in": "body",
+            "description": "Body parameters for validate email address",
+            "schema": {
+              "type":"object",
+              "properties":{
+                "patientId":{
+                  "type":"string"
+                },
+                "verificationCode":{
+                  "type":"string"
+                }
+              }
+            }
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Email validated",
+            "schema": {
+              "type":"object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed to validate email",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "statusCode": {
+                  "type": "integer",
+                  "default": 400
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref":"#/definitions/Unauthorized"
+          }
+        }
+      }
+    },
+    "/validatePhoneNumber":{
+      "post":{
+        "tags": [
+          "Patient"
+        ],
+        "summary": "Validate phone number",
+        "parameters":[
+          {
+            "name": "Body Parameters",
+            "in": "body",
+            "description": "Body parameters for validate phone number",
+            "schema": {
+              "type":"object",
+              "properties":{
+                "patientId":{
+                  "type":"string"
+                },
+                "verificationCode":{
+                  "type":"string"
+                }
+              }
+            }
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Phone number validated",
+            "schema": {
+              "type":"object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed to validate phone number",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "statusCode": {
+                  "type": "integer",
+                  "default": 400
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref":"#/definitions/Unauthorized"
+          }
+        }
+      }
+    },
+    "/survey/attended":{
+      "post":{
+        "tags": [
+          "Patient"
+        ],
+        "summary": "fetch attended surveys",
+        "parameters":[
+          {
+            "name": "Body Parameters",
+            "in": "body",
+            "description": "Body parameters for fetch attended surveys",
+            "schema": {
+              "type":"object",
+              "properties":{"patient_id":"61"}
+            }
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successfully fetched attended surveys",
+            "schema": {
+              "type":"object",
+              "properties": {
+                "message":{
+                  "type":"string"
+                },
+                "data":{
+                  "type":"array"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed to fetch survey attended",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
                 },
                 "statusCode": {
                   "type": "integer",
@@ -3310,13 +5863,23 @@
           "Patient"
         ],
         "summary": "Fetch patient diagnosis details with id",
+        "parameters":[
+          {
+            "name": "id",
+            "in": "path",
+            "description": "patient diagnosis id",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "security": [{ "Bearer": [] }],
         "produces": [
           "application/json"
         ],
         "responses": {
           "200": {
-            "description": "list admin details",
+            "description": "List patient diagnosis details",
             "schema": {"$ref":"#/definitions/GetPatientDiagnosisDetailsSuccessResponse"}
           },
           "400": {
@@ -3354,6 +5917,14 @@
             "schema": {
               "$ref": "#/definitions/UpdatePatientDiagnosisBodyParam"
             }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "patient diagnosis id",
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "security": [{ "Bearer": [] }],
@@ -3362,7 +5933,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Success response for add patient medication",
+            "description": "Success response for update patient diagnosis",
             "schema": {"$ref":"#/definitions/UpdatePatientDiagnosisSuccessResponse" }
           },
           "400": {
@@ -3522,17 +6093,65 @@
         }
       }
     },
+    "/surveytemplate/create":{
+      "post":{
+        "tags": [
+          "Treatment"
+        ],
+        "summary": "Create survey template",
+        "parameters": [
+          {
+            "name": "Body Parameters",
+            "in": "body",
+            "description": "Body parameters for create survey template",
+            "schema": {
+              "$ref": "#/definitions/CreateSurveyTemplateBodyParams"
+            }
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successfully created survey template",
+            "schema": {
+              "$ref":"#/definitions/CreateSurveyTemplateSuccessResponse"
+            }
+          },
+          "400": {
+            "description": "Failed response for create survey template",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "statusCode": {
+                  "type": "integer",
+                  "default": 400
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref":"#/definitions/Unauthorized"
+          }
+        }
+      }
+    },
     "/surveytemplate/search":{
       "get":{
         "tags": [
-          "User"
+          "Treatment"
         ],
         "summary": "Fetch survey template",
         "parameters":[
           {
             "name": "from",
             "in": "query",
-            "description": "Skip data ",
+            "description": "Skip data",
             "type":"integer",
             "required": true,
             "default": 0
@@ -3587,7 +6206,7 @@
     "/surveytemplate/delete":{
       "post":{
         "tags": [
-          "User"
+          "Treatment"
         ],
         "summary": "Delete survey template",
         "parameters": [
@@ -3631,11 +6250,840 @@
           }
         }
       }
-    }    
+    },
+    "/surveytemplate/update":{
+      "put":{
+        "tags": [
+          "Treatment"
+        ],
+        "summary": "Update survey template",
+        "parameters": [
+          {
+            "name": "Body Parameters",
+            "in": "body",
+            "description": "Body parameters for update survey template",
+            "schema": {
+              "$ref": "#/definitions/UpdateSurveyTemplateBodyParams"
+            }
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successfully update survey template",
+            "schema": {
+              "$ref":"#/definitions/UpdateSurveyTemplateSuccessResponse"
+            }
+          },
+          "400": {
+            "description": "Failed response for update survey template",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "statusCode": {
+                  "type": "integer",
+                  "default": 400
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref":"#/definitions/Unauthorized"
+          }
+        }
+      }
+    },
+    "/surveytemplate/{templateId}":{
+      "get":{
+        "tags": [
+          "Treatment"
+        ],
+        "summary": "fetch survey template",
+        "parameters": [
+          {
+            "name": "templateId",
+            "in": "path",
+            "description": "Id of the template",
+            "type":"string",
+            "required": true
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successfully fetch survey template",
+            "schema": {
+              "$ref":"#/definitions/FetchByIdSurveyTemplateSuccessResponse"
+            }
+          },
+          "400": {
+            "description": "Failed response for update survey template",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "statusCode": {
+                  "type": "integer",
+                  "default": 400
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref":"#/definitions/Unauthorized"
+          }
+        }
+      }
+    },
+    "/survey/recordResponse":{
+      "post":{
+        "tags": [
+          "Treatment"
+        ],
+        "summary": "Record survey response",
+        "parameters": [
+          {
+            "name": "Body Parameters",
+            "in": "body",
+            "description": "Body parameters for record survey response",
+            "schema": {
+              "type": "object",
+              "properties":{
+                "created_by": {
+                  "type":"string"
+                },
+                "patient_id": {
+                  "type":"string"
+                },
+                "survey_template_version_id": {
+                  "type":"string"
+                },
+                "survey_template_id": {
+                  "type":"string"
+                },
+                "task_id": {
+                  "type":"string"
+                },
+                "template_response":{
+                  "type":"object",
+                  "properties":{
+                    "textbox1": {
+                      "type":"string"
+                    },
+                    "number": {
+                      "type":"string"
+                    }
+                  }
+                } 
+              }
+            }
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successfully record survey response",
+            "schema": {
+              "type":"object",
+              "properties":{
+                "message": {
+                  "type":"string"
+                },
+                "data": {
+                  "type":"object",
+                  "properties":{
+                    "id": {
+                      "type":"string"
+                    },
+                    "createdAt": {
+                      "type":"string"
+                    }
+                  }
+                }
+              }  
+            }
+          },
+          "400": {
+            "description": "Failed response for update survey template",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "statusCode": {
+                  "type": "integer",
+                  "default": 400
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref":"#/definitions/Unauthorized"
+          }
+        }
+      }
+    },
+    "/survey/getResponse":{
+      "post":{
+        "tags": [
+          "Treatment"
+        ],
+        "summary": "Get survey response",
+        "parameters": [
+          {
+            "name": "Body Parameters",
+            "in": "body",
+            "description": "Body parameters for get survey response",
+            "schema": {
+              "type": "object",
+              "properties":{
+                "patient_id": {
+                  "type":"string"
+                },
+                "survey_response_id": {
+                  "type":"string"
+                }
+              }
+            }
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successfully get survey response",
+            "schema": {
+              "type":"object",
+              "properties":{
+                "message": {
+                    "type":"string"
+                },
+                "data": {
+                    "type":"object",
+                    "properties":{
+                        "id": {
+                            "type":"string"
+                        },
+                        "patient_id": {
+                            "type":"string"
+                        },
+                        "survey_template_version_id": {
+                            "type":"string"
+                        },
+                        "task_id": {
+                            "type":"string"
+                        },
+                        "template_response": {
+                            "type":"object",
+                            "properties":{
+                                "textbox1": {
+                                    "type":"string"
+                                },
+                                "number": {
+                                    "type":"string"
+                                }
+                            }
+                        },
+                        "created_by": {
+                            "type":"string"
+                        },
+                        "createdAt": {
+                            "type":"string"
+                        },
+                        "tenant_id": {
+                            "type":"string"
+                        },
+                        "survey_template": {
+                            "type":"object",
+                            "properties":{
+                                "id": {
+                                    "type":"string"
+                                },
+                                "version": {
+                                    "type":"string"
+                                },
+                                "template": {"$ref":"#/definitions/templateArrayData"},
+                                "survey_template_id": {
+                                    "type":"string"
+                                },
+                                "survey_template":{
+                                    "type":"object",
+                                    "properties":{
+                                        "id": {
+                                            "type":"string"
+                                        },
+                                        "survey_name": {
+                                            "type":"string"
+                                        },
+                                        "latest_template_definition": {
+                                            "type":"string"
+                                        }
+                                    }
+                                } 
+                            }
+                        }
+                    }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed response for update survey template",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "statusCode": {
+                  "type": "integer",
+                  "default": 400
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref":"#/definitions/Unauthorized"
+          }
+        }
+      }
+    },
+    "/v1/treatmentTasks/fetchByCriteria":{
+      "get":{
+        "tags": [
+          "Treatment"
+        ],
+        "summary": "Fetch treatment tasks by criteria",
+        "parameters":[
+          {
+            "name": "completed_flag",
+            "in": "query",
+            "description": "completed flag",
+            "type":"boolean",
+            "required": true,
+            "default": true
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number",
+            "required": true,
+            "type":"integer",
+            "default":1
+          },
+          {
+            "name": "count",
+            "in": "query",
+            "description": "Response data count",
+            "required": true,
+            "type":"integer",
+            "default":10
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Treatment Tasks fetched successfully",
+            "schema": {"$ref":"#/definitions/FetchTemplateTaskSuccessResponse" }
+          },
+          "400": {
+            "description": "Failed to fetch template task",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "statusCode": {
+                  "type": "integer",
+                  "default": 400
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref":"#/definitions/Unauthorized"
+          }
+        }
+      }
+    },
+    "/v1/treatmentTasks/update/{taskId}":{
+      "get":{
+        "tags": [
+          "Treatment"
+        ],
+        "summary": "Update treatment task",
+        "parameters":[
+          {
+            "name": "Body Parameters",
+            "in": "body",
+            "description": "Body parameter for updating treatment task",
+            "schema":{
+              "type":"object",
+              "properties":{
+                "completed_flag": {
+                  "type":"boolean"
+                },
+                "due_date": {
+                  "type":"string"
+                },
+                "name": {
+                  "type":"string"
+                },
+                "description": {
+                  "type":"string"
+                },
+                "due_days": {
+                  "type":"integer"
+                },
+                "event_type_id": {
+                  "type":"string"
+                },
+                "created_by": {
+                  "type":"string"
+                },
+                "treatment_id": {
+                  "type":"string"
+                },
+                "task_completion_date": {
+                  "type":"string"
+                },
+                "custom_flag": {
+                  "type":"boolean"
+                },
+                "createdAt": {
+                  "type":"string"
+                },
+                "updatedAt": {
+                  "type":"string"
+                },
+                "updated_by": {
+                  "type":"string"
+                },
+                "responsibility_id": {
+                  "type":"string"
+                },
+                "owner_id": {
+                  "type":"string"
+                }
+              }
+            },
+            "required": true
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Treatment Tasks updated successfully",
+            "schema": {"$ref":"#/definitions/UpdateTemplateTaskSuccessResponse" }
+          },
+          "400": {
+            "description": "Failed to update template task",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "statusCode": {
+                  "type": "integer",
+                  "default": 400
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref":"#/definitions/Unauthorized"
+          }
+        }
+      }
+    },
+    "/message/sendMessage":{
+      "post":{
+        "tags": [
+          "Message"
+        ],
+        "summary": "Send message",
+        "parameters": [
+          {
+            "name": "Body Parameters",
+            "in": "body",
+            "description": "Body parameters for sending message",
+            "schema": {
+              "$ref": "#/definitions/SendMessageBodyParams"
+            }
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "message send successfully",
+            "schema": {
+              "$ref":"#/definitions/SendMessageSuccessResponse"
+            }
+          },
+          "400": {
+            "description": "Failed response for send message",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "statusCode": {
+                  "type": "integer",
+                  "default": 400
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref":"#/definitions/Unauthorized"
+          }
+        }
+      }
+    },
+    "/message/getMessage":{
+      "post":{
+        "tags": [
+          "Message"
+        ],
+        "summary": "Get message",
+        "parameters": [
+          {
+            "name": "Body Parameters",
+            "in": "body",
+            "description": "Body parameters for get message",
+            "schema": {
+              "$ref": "#/definitions/GetMessageBodyParams"
+            }
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "message fetched successfully",
+            "schema": {
+              "$ref":"#/definitions/GetMessageSuccessResponse"
+            }
+          },
+          "400": {
+            "description": "Failed response for get message",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "statusCode": {
+                  "type": "integer",
+                  "default": 400
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref":"#/definitions/Unauthorized"
+          }
+        }
+      }
+    },
+    "/message/setMessageRead":{
+      "put":{
+        "tags": [
+          "Message"
+        ],
+        "summary": "Set message read",
+        "parameters": [
+          {
+            "name": "Body Parameters",
+            "in": "body",
+            "description": "Body parameters for set message read",
+            "schema": {
+              "type": "object",
+              "properties":{
+                "id":{
+                  "type":"string"
+                },
+                "message_read_flag":{
+                  "type":"boolean"
+                }
+              }
+            }
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "updated successfully",
+            "schema": {
+              "type":"object",
+              "properties":{
+                "message":{
+                  "type":"string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed response for get message",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "statusCode": {
+                  "type": "integer",
+                  "default": 400
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref":"#/definitions/Unauthorized"
+          }
+        }
+      }
+    },
+    "/message/updateMessage":{
+      "post":{
+        "tags": [
+          "Message"
+        ],
+        "summary": "Update message",
+        "parameters": [
+          {
+            "name": "Body Parameters",
+            "in": "body",
+            "description": "Body parameters for update message",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "parent_id": {
+                  "type": "string"
+                },
+                "isClosed": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "message updated successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "status": {
+                    "type": "integer"
+                  },
+                  "message": {
+                    "type": "string"
+                  },
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "parent_id": {
+                        "type": "string"
+                      },
+                      "isClosed": {
+                        "type": "boolean"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed response for get message",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "statusCode": {
+                  "type": "integer",
+                  "default": 400
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref":"#/definitions/Unauthorized"
+          }
+        }
+      }
+    },
+    "/patient/archiveMessages":{
+      "post":{
+        "tags": [
+          "Message"
+        ],
+        "summary": "Archive message",
+        "parameters": [
+          {
+            "name": "Body Parameters",
+            "in": "body",
+            "description": "Body parameters for archive message",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "parentId": {
+                  "type": "string"
+                },
+                "created_by": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "archived messages and patient notes added sucessfully",
+            "schema": {
+              "$ref":"#/definitions/ArchiveMessageSuccessResponse"
+            }
+          },
+          "400": {
+            "description": "Failed response for get message",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "statusCode": {
+                  "type": "integer",
+                  "default": 400
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref":"#/definitions/Unauthorized"
+          }
+        }
+      }
+    },
+    "/encounter":{
+      "post":{
+        "tags": [
+          "Patient"
+        ],
+        "summary": "Add notes",
+        "parameters": [
+          {
+            "name": "Body Parameters",
+            "in": "body",
+            "description": "Body parameters to add notes",
+            "schema": {
+              "type": "object",
+              "properties":{
+                "created_by":{
+                  "type":"string"
+                },
+                "encounter_date":{
+                  "type":"string"
+                },
+                "health_practitioner_carer_id":{
+                  "type":"string"
+                },
+                "notes":{
+                  "type":"string"
+                },
+                "patient_id":{
+                  "type":"string"
+                },
+                "title":{
+                  "type":"string"
+                }
+              }
+            }
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Notes added successfully",
+            "schema": {
+              "$ref":"#/definitions/AddNotesSuccessResponse"
+            }
+          },
+          "400": {
+            "description": "Failed response for add notes",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "statusCode": {
+                  "type": "integer",
+                  "default": 400
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref":"#/definitions/Unauthorized"
+          }
+        }
+      }
+    }
   },
-  "responses": {
-
-  },
+  "responses": {},
   "parameters": {},
   "securityDefinitions": {
     "Bearer": {
@@ -6329,7 +9777,9 @@
         "message": {
           "type":"string"
         },
-        "data": {
+        "data":{
+          "type":"object",
+          "properties":{
             "medicationRoute": {
               "type":"array",
               "items":{"$ref":"#/definitions/MedicationListResponseData"}
@@ -6337,7 +9787,8 @@
             "totalCount": {
               "type":"integer"
             }
-        }
+          }
+        } 
       }
     },
     "SearchSnomedSuccessResponse":{
@@ -7855,6 +11306,2222 @@
         },
         "data": {
           "type":"object"
+        }
+      }
+    },
+    "AddTreatmentOptionTemplateBodyParams":{
+      "type":"object",
+      "properties":{
+        "diagnosis_treatment_options_id":{
+          "type":"string"
+        },
+        "template":{
+          "type":"array",
+          "items":{
+            "type":"object",
+            "properties":{
+              "title":{
+                "type":"string"
+              },
+              "path":{
+                "type":"string"
+              },
+              "pathId":{
+                "type":"string"
+              },
+              "options":{
+                "type":"object",
+                "properties":{
+                  "paddingTop":{
+                    "type":"object",
+                    "properties": {
+                      "title":{
+                        "type":"string"
+                      },
+                      "input":{
+                        "type":"object",
+                        "properties":{
+                          "type":{
+                            "type":"string"
+                          },
+                          "value":{
+                            "type":"integer"
+                          },
+                          "required":{
+                            "type":"boolean"
+                          },
+                          "disabled":{
+                            "type":"boolean"
+                          },
+                          "min":{
+                            "type":"integer"
+                          },
+                          "max":{
+                            "type":"integer"
+                          }
+                       }
+                      },
+                      "attribute":{
+                        "type":"object",
+                        "properties":{
+                          "unit":{
+                            "type":"string"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "paddingBottom":{
+                    "type":"object",
+                    "properties": {
+                      "title":{
+                        "type":"string"
+                      },
+                      "input":{
+                        "type":"object",
+                        "properties":{
+                          "type":{
+                            "type":"string"
+                          },
+                          "value":{
+                            "type":"integer"
+                          },
+                          "required":{
+                            "type":"boolean"
+                          },
+                          "disabled":{
+                            "type":"boolean"
+                          },
+                          "min":{
+                            "type":"integer"
+                          },
+                          "max":{
+                            "type":"integer"
+                          }
+                       }
+                      },
+                      "attribute":{
+                        "type":"object",
+                        "properties":{
+                          "unit":{
+                            "type":"string"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "paddingLeft":{
+                    "type":"object",
+                    "properties": {
+                      "title":{
+                        "type":"string"
+                      },
+                      "input":{
+                        "type":"object",
+                        "properties":{
+                          "type":{
+                            "type":"string"
+                          },
+                          "value":{
+                            "type":"integer"
+                          },
+                          "required":{
+                            "type":"boolean"
+                          },
+                          "disabled":{
+                            "type":"boolean"
+                          },
+                          "min":{
+                            "type":"integer"
+                          },
+                          "max":{
+                            "type":"integer"
+                          }
+                       }
+                      },
+                      "attribute":{
+                        "type":"object",
+                        "properties":{
+                          "unit":{
+                            "type":"string"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "paddingRight":{
+                    "type":"object",
+                    "properties": {
+                      "title":{
+                        "type":"string"
+                      },
+                      "input":{
+                        "type":"object",
+                        "properties":{
+                          "type":{
+                            "type":"string"
+                          },
+                          "value":{
+                            "type":"integer"
+                          },
+                          "required":{
+                            "type":"boolean"
+                          },
+                          "disabled":{
+                            "type":"boolean"
+                          },
+                          "min":{
+                            "type":"integer"
+                          },
+                          "max":{
+                            "type":"integer"
+                          }
+                       }
+                      },
+                      "attribute":{
+                        "type":"object",
+                        "properties":{
+                          "unit":{
+                            "type":"string"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "flexDirection":{
+                    "type":"object",
+                    "properties": {
+                      "title":{
+                        "type":"string"
+                      },
+                      "input":{
+                        "type":"object",
+                        "properties":{
+                          "type":{
+                            "type":"string"
+                          },
+                          "value":{
+                            "type":"integer"
+                          },
+                          "required":{
+                            "type":"boolean"
+                          },
+                          "disabled":{
+                            "type":"boolean"
+                          },
+                          "min":{
+                            "type":"integer"
+                          },
+                          "max":{
+                            "type":"integer"
+                          }
+                       }
+                      },
+                      "attribute":{
+                        "type":"object",
+                        "properties":{
+                          "unit":{
+                            "type":"string"
+                          }
+                        }
+                      }
+                    }
+                  }
+               }
+              },
+              "children":{
+                "type":"array",
+                "items":{
+                  "type":"object",
+                  "properties":{
+                    "title":{
+                      "type":"string"
+                    },
+                    "path":{
+                      "type":"string"
+                    },
+                    "pathId":{
+                      "type":"string"
+                    },
+                    "options":{
+                       "type":"object"
+                    },
+                    "children":{
+                      "type":"array"
+                    }
+                 }
+                }
+              }
+            }
+          }
+        },
+        "created_by":{
+          "type":"string"
+        }
+      }
+    },
+    "UpdateTreatmentOptionTemplateBodyParams":{
+      "type":"object",
+      "properties":{
+        "diagnosis_treatment_options_id":{
+          "type":"string"
+        },
+        "template":{
+          "type":"array",
+          "items":           {
+            "title":{
+              "type":"string"
+            },
+            "path":{
+              "type":"string"
+            },
+            "pathId":{
+              "type":"string"
+            },
+            "options":{
+              "type":"object",
+              "properties":{
+                "paddingTop":{
+                  "type":"object",
+                  "properties": {
+                    "title":{
+                      "type":"string"
+                    },
+                    "input":{
+                      "type":"object",
+                      "properties":{
+                        "type":{
+                          "type":"string"
+                        },
+                        "value":{
+                          "type":"integer"
+                        },
+                        "required":{
+                          "type":"boolean"
+                        },
+                        "disabled":{
+                          "type":"boolean"
+                        },
+                        "min":{
+                          "type":"integer"
+                        },
+                        "max":{
+                          "type":"integer"
+                        }
+                     }
+                    },
+                    "attribute":{
+                      "type":"object",
+                      "properties":{
+                        "unit":{
+                          "type":"string"
+                        }
+                      }
+                    }
+                  }
+                },
+                "paddingBottom":{
+                  "type":"object",
+                  "properties": {
+                    "title":{
+                      "type":"string"
+                    },
+                    "input":{
+                      "type":"object",
+                      "properties":{
+                        "type":{
+                          "type":"string"
+                        },
+                        "value":{
+                          "type":"integer"
+                        },
+                        "required":{
+                          "type":"boolean"
+                        },
+                        "disabled":{
+                          "type":"boolean"
+                        },
+                        "min":{
+                          "type":"integer"
+                        },
+                        "max":{
+                          "type":"integer"
+                        }
+                     }
+                    },
+                    "attribute":{
+                      "type":"object",
+                      "properties":{
+                        "unit":{
+                          "type":"string"
+                        }
+                      }
+                    }
+                  }
+                },
+                "paddingLeft":{
+                  "type":"object",
+                  "properties": {
+                    "title":{
+                      "type":"string"
+                    },
+                    "input":{
+                      "type":"object",
+                      "properties":{
+                        "type":{
+                          "type":"string"
+                        },
+                        "value":{
+                          "type":"integer"
+                        },
+                        "required":{
+                          "type":"boolean"
+                        },
+                        "disabled":{
+                          "type":"boolean"
+                        },
+                        "min":{
+                          "type":"integer"
+                        },
+                        "max":{
+                          "type":"integer"
+                        }
+                     }
+                    },
+                    "attribute":{
+                      "type":"object",
+                      "properties":{
+                        "unit":{
+                          "type":"string"
+                        }
+                      }
+                    }
+                  }
+                },
+                "paddingRight":{
+                  "type":"object",
+                  "properties": {
+                    "title":{
+                      "type":"string"
+                    },
+                    "input":{
+                      "type":"object",
+                      "properties":{
+                        "type":{
+                          "type":"string"
+                        },
+                        "value":{
+                          "type":"integer"
+                        },
+                        "required":{
+                          "type":"boolean"
+                        },
+                        "disabled":{
+                          "type":"boolean"
+                        },
+                        "min":{
+                          "type":"integer"
+                        },
+                        "max":{
+                          "type":"integer"
+                        }
+                     }
+                    },
+                    "attribute":{
+                      "type":"object",
+                      "properties":{
+                        "unit":{
+                          "type":"string"
+                        }
+                      }
+                    }
+                  }
+                },
+                "flexDirection":{
+                  "type":"object",
+                  "properties": {
+                    "title":{
+                      "type":"string"
+                    },
+                    "input":{
+                      "type":"object",
+                      "properties":{
+                        "type":{
+                          "type":"string"
+                        },
+                        "value":{
+                          "type":"integer"
+                        },
+                        "required":{
+                          "type":"boolean"
+                        },
+                        "disabled":{
+                          "type":"boolean"
+                        },
+                        "min":{
+                          "type":"integer"
+                        },
+                        "max":{
+                          "type":"integer"
+                        }
+                     }
+                    },
+                    "attribute":{
+                      "type":"object",
+                      "properties":{
+                        "unit":{
+                          "type":"string"
+                        }
+                      }
+                    }
+                  }
+                }
+             }
+            },
+            "children":{
+              "type":"array",
+              "items":{
+                "type":"object",
+                "properties":{
+                  "title":{
+                    "type":"string"
+                  },
+                  "path":{
+                    "type":"string"
+                  },
+                  "pathId":{
+                    "type":"string"
+                  },
+                  "options":{
+                     "type":"object"
+                  },
+                  "children":{
+                    "type":"array"
+                  }
+               }
+              }
+            }
+          }
+        },
+        "updated_by":{
+          "type":"string"
+        }
+      }
+    },
+    "CreateSurveyTemplateBodyParams":{
+      "type":"object",
+      "properties":{
+        "createdBy":{
+          "type":"string"
+        },
+        "survey_name":{
+          "type":"string"
+        },
+        "version":{
+          "type":"integer"
+        },
+        "template":{
+          "type":"array",
+          "items":{"$ref":"#/definitions/templateArrayData"}
+        }
+      }
+    },
+    "UpdateSurveyTemplateBodyParams":{
+      "type":"object",
+      "properties":{
+        "createdBy":{
+          "type":"string"
+        },
+        "survey_name":{
+          "type":"string"
+        },
+        "version":{
+          "type":"integer"
+        },
+        "template":{
+          "type":"array",
+          "items":{"$ref":"#/definitions/templateArrayData"}
+        },
+        "survey_template_id":{
+          "type":"string"
+        }
+      }
+
+
+    },
+    "templateArrayData":{
+        "type":"object",
+        "properties":{
+          "title": {
+            "type":"string"
+          },
+          "path": {
+            "type":"string"
+          },
+          "pathId": {
+            "type":"string"
+          },
+          "options": {
+            "type":"object",
+            "properties":{
+              "paddingTop": {"$ref":"#/definitions/optionObjectData"},
+              "paddingBottom": {"$ref":"#/definitions/optionObjectData"},
+              "paddingLeft": {"$ref":"#/definitions/optionObjectData"},
+              "paddingRight": {"$ref":"#/definitions/optionObjectData"},
+              "flexDirection": {"$ref":"#/definitions/optionObjectData"}
+            }
+          },
+          "children":{
+            "type":"array",
+            "items":{
+              "type":"object",
+              "properties":{
+                "title": {
+                  "type":"string"
+                },
+                "path": {
+                  "type":"string"
+                },
+                "pathId": {
+                  "type":"string"
+                },
+                "options": {
+                  "type":"object"
+                },
+                "children": {
+                  "type":"array"
+                }
+              }
+            }
+          }
+      }
+    },
+    "CreateSurveyTemplateSuccessResponse":{
+      "type":"object",
+      "properties":{
+        "message": {
+          "type":"string"
+        },
+        "data":{
+          "type":"object",
+          "properties":{
+            "id": {
+              "type":"string"
+            },
+            "survey_name": {
+              "type":"string"
+            },
+            "created_by": {
+              "type":"string"
+            },
+            "createdAt": {
+              "type":"string"
+            },
+            "updated_by":{
+              "type":"string"
+            },
+            "updatedAt": {
+              "type":"string"
+            },
+            "tenant_id": {
+              "type":"string"
+            },
+            "latest_template_definition": {
+              "type":"string"
+            }
+          }
+        }
+      }
+    },
+    "UpdateSurveyTemplateSuccessResponse": {
+      "type":"object",
+      "properties":{
+        "message":{
+          "type":"string"
+        },
+        "data":{
+          "type":"object",
+          "properties":{
+            "templateUpdated":{
+              "type":"boolean"
+            },
+            "versionCreatedResponse":{
+              "type":"object",
+              "properties":{
+                "id":"60",
+                "version":"3",
+                "template":{"$ref":"#/definitions/templateArrayData"},
+                "survey_template_id":{
+                  "type":"string"
+                },
+                "createdAt":{
+                  "type":"string"
+                }
+             }
+            },
+            "templatedUpdated":{
+              "type":"object",
+              "properties":{
+                "id":{
+                  "type":"string"
+                },
+                "survey_name":{
+                  "type":"string"
+                },
+                "created_by":{
+                  "type":"string"
+                },
+                "createdAt":{
+                  "type":"string"
+                },
+                "updated_by":{
+                  "type":"string"
+                },
+                "updatedAt":{
+                  "type":"string"
+                },
+                "tenant_id":{
+                  "type":"string"
+                },
+                "latest_template_definition":{
+                  "type":"string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "DeleteTreatmentTemplateSuccessResponse":{
+      "type":"object",
+      "properties":{
+        "message":{
+          "type":"string"
+        },
+        "data":{
+          "type":"string",
+          "properties":{
+            "status":{
+              "type":"integer",
+              "default":200
+            },
+            "message":{
+              "type":"string"
+            },
+            "data":{
+              "type":"object",
+              "properties": {
+                "generatedMaps":{
+                  "type":"array"
+                },
+                "raw":{
+                  "type":"array"
+                },
+                "affected":{
+                  "type":"integer"
+                }
+              }
+            }
+         }
+        }
+      }
+    },
+    "FetchTemplateTaskSuccessResponse":{
+      "type":"object",
+      "properties":{
+        "message":{
+          "type":"string"
+        },
+        "data":{
+          "type":"object",
+          "properties":{
+            "status":{
+              "type":"integer",
+              "default":200
+            },
+            "message":{
+              "type":"string"
+            },
+            "data":{
+              "type":"object",
+              "properties":{
+                "treatmentTasks":{
+                  "type":"array",
+                  "items":{
+                    "type":"object",
+                    "properties": {
+                      "id":{
+                        "type":"string"
+                      },
+                      "name":{
+                        "type":"string"
+                      },
+                      "description":{
+                        "type":"string"
+                      },
+                      "due_days":{
+                        "type":"integer"
+                      },
+                      "responsibility_id":{
+                        "type":"string"
+                      },
+                      "owner_id":{
+                        "type":"string"
+                      },
+                      "event_type_id":{
+                        "type":"string"
+                      },
+                      "treatment_id":{
+                        "type":"string"
+                      },
+                      "due_date":{
+                        "type":"string"
+                      },
+                      "task_completion_date":{
+                        "type":"string"
+                      },
+                      "completed_flag":{
+                        "type":"boolean"
+                      },
+                      "custom_flag":{
+                        "type":"boolean"
+                      },
+                      "createdAt":{
+                        "type":"string"
+                      },
+                      "updatedAt":{
+                        "type":"string"
+                      },
+                      "created_by":{
+                        "type":"string"
+                      },
+                      "updated_by":{
+                        "type":"string"
+                      },
+                      "treatment":{
+                        "type":"object",
+                        "properties":{
+                          "id":{
+                            "type":"string"
+                          },
+                          "status_id":{
+                            "type":"string"
+                          },
+                          "patient":{
+                            "type":"object",
+                            "properties":{
+                              "id":{
+                                "type":"string"
+                              },
+                              "family_name":{
+                                "type":"string"
+                              },
+                              "firstname":{
+                                "type":"string"
+                              }
+                            }
+                          },
+                          "patient_diagnosis":{
+                            "type":"object",
+                            "properties":{
+                              "id":{
+                                "type":"string"
+                              },
+                              "patient_practitioner_association":{
+                                "type":"array",
+                                "items":{
+                                  "type":"object",
+                                  "properties":{
+                                    "id":{
+                                      "type":"string"
+                                    },
+                                    "patient_id":{
+                                      "type":"string"
+                                    },
+                                    "patient_diagnosis_id":{
+                                      "type":"string"
+                                    },
+                                    "health_practitioner_type_id":{
+                                      "type":"string"
+                                    },
+                                    "health_practitioner_id":{
+                                      "type":"string"
+                                    },
+                                    "health_practitioner_carer":{
+                                      "type":"object",
+                                      "properties":{
+                                        "id":{
+                                          "type":"string"
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "owner":{
+                        "type":"object",
+                        "properties":{
+                          "id":{
+                            "type":"string"
+                          },
+                          "name":{
+                            "type":"string"
+                          }
+                        }
+                      },
+                      "event_type":{
+                        "type":"object",
+                        "properties":{
+                          "id":{
+                            "type":"string"
+                          },
+                          "name":{
+                            "type":"string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "totalCount":{
+                  "type":"integer"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "GetMyPatientsBodyParams":{
+      "type":"object",
+      "properties":{
+        "practitioner_id":{
+          "type":"string"
+        }
+      }
+    },
+    "GetMyPatientsSuccessResponse":{
+      "type":"object",
+      "properties":{
+        "message":{
+          "type":"string"
+        },
+        "data":{
+          "type":"array",
+          "items":{
+            "type":"object",
+            "properties":{
+              "createdAt":{
+                "type":"string"
+              },
+              "updatedAt":{
+                "type":"string"
+              },
+              "id":{
+                "type":"string"
+              },
+              "patient_id":{
+                "type":"string"
+              },
+              "fullname":{
+                "type":"string"
+              },
+              "medicare_number":{
+                "type":"string"
+              },
+              "user_account_id":{
+                "type":"string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "GetPatientRecipientsSuccessResponse":{
+      "type":"object",
+      "properties":{
+        "message":{
+          "type":"string"
+        },
+        "data":{
+          "type":"array",
+          "items":{
+            "type":"object",
+            "properties":{
+              "createdAt":{
+                "type":"string"
+              },
+              "updatedAt":{
+                "type":"string"
+              },
+              "id":{
+                "type":"string"
+              },
+              "patient_id":{
+                "type":"string"
+              },
+              "practitioner_id":{
+                "type":"string"
+              },
+              "role":{
+                "type":"string"
+              },
+              "fullname":{
+                "type":"string"
+              },
+              "care_unit_id":{
+                "type":"string"
+              },
+              "care_unit_name":{
+                "type":"string"
+              },
+              "user_account_id":{
+                "type":"string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "GetPatientRecipientsBodyParams":{
+      "type":"object",
+      "properties":{
+        "patient_id":{
+          "type":"string"
+        },
+        "practitioner_id":{
+          "type":"string"
+        }
+      }
+    },
+    "SendMessageBodyParams":{
+      "type":"object",
+      "properties":{
+        "to":{
+          "type":"array",
+          "items":{
+            "type":"string"
+          }
+        },
+        "patient_id":{
+          "type":"string"
+        },
+        "subject":{
+          "type":"string"
+        },
+        "message":{
+          "type":"string"
+        },
+        "from":{
+          "type":"string"
+        },
+        "attachmentList":{
+          "type":"array"
+        }
+      }
+    },
+    "SendMessageSuccessResponse":{
+      "type":"object",
+      "properties":{
+        "message":{
+          "type":"string"
+        },
+        "data":{
+          "type":"object",
+          "properties":{
+            "status":{
+              "type":"integer",
+              "default":200
+            },
+            "message":{
+              "type":"string"
+            },
+            "data":{
+              "type":"object",
+              "properties":{
+                "sender_id":{
+                 "type":"string"
+               },
+                "subject":{
+                 "type":"string"
+               },
+                "body":{
+                 "type":"string"
+               },
+                "patient_id":{
+                 "type":"string"
+               },
+                "sent_date":{
+                 "type":"string"
+               },
+                "created_by":{
+                 "type":"string"
+               },
+                "createdAt":{
+                 "type":"string"
+               },
+                "id":{
+                 "type":"string"
+               },
+                "updatedAt":{
+                 "type":"string"
+               },
+                "isClosed":{
+                 "type":"boolean"
+               }
+             }
+            }
+          }
+        }
+      }
+    },
+    "TreatmentOptionsFetchSuccessResponse":{
+      "type":"object",
+      "properties":{
+        "message":{
+          "type":"string"
+        },
+        "data":{
+          "status":{
+            "type":"integer"
+          },
+          "message":{
+            "type":"string"
+          },
+          "data":{
+            "type":"object",
+            "properties":{
+              "id":{
+                "type":"string"
+              },
+              "diagnosis_treatment_options_id":{
+                "type":"string"
+              },
+              "version":{
+                "type":"string"
+              },
+              "template":{
+                "type":"array",
+                "items":{"$ref":"#/definitions/templateArrayData"}
+              },
+              "tenant_id":{
+                "type":"string"
+              },
+              "deletedAt":{
+                "type":"string"
+              },
+              "created_by":{
+                "type":"string"
+              },
+              "createdAt":{
+                "type":"string"
+              },
+              "updated_by":{
+                "type":"string"
+              },
+              "updatedAt":{
+                "type":"string"
+              },
+              "diagnosis_treatment_options":{
+                "type":"object",
+                "properties":{
+                  "id":{
+                   "type":"string"
+                 },
+                  "diagnosis_id":{
+                   "type":"string"
+                 },
+                  "deletedAt":{
+                   "type":"string"
+                 },
+                  "treatment_options_id":{
+                   "type":"string"
+                 },
+                  "active":{
+                   "type":"boolean"
+                 },
+                  "tenant_id":{
+                   "type":"string"
+                 },
+                  "created_by":{
+                   "type":"string"
+                 },
+                  "createdAt":{
+                   "type":"string"
+                 },
+                  "updated_by":{
+                   "type":"string"
+                 },
+                  "updatedAt":{
+                   "type":"string"
+                 }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "TreatmentOptionsResponseFetchSuccessResponse":{
+      "type":"object",
+      "properties":{
+        "message":{
+          "type":"string"
+        },
+        "data":{
+          "type":"object",
+          "properties":{
+            "status":{
+              "type":"integer",
+              "default":200
+            },
+            "message":{
+              "type":"string"
+            },
+            "data":{
+              "type":"array"
+            }
+          }
+        }
+      }
+    },
+    "AddTreatmentOptionResponseBodyParams":{
+      "type":"object",
+      "properties":{
+        "template_response":{
+          "type":"object",
+          "properties":{
+            "dateOfDiagnosis":{
+              "type":"string"
+            },
+            "prostateAndPelvicNodes":{
+              "type":"string"
+            },
+            "prostateAndPelvicEndDate":{
+              "type":"string"
+            },
+            "prostate":{
+              "type":"string"
+            },
+            "prostateEndDate":{
+              "type":"string"
+            },
+            "brachyTherapy":{
+              "type":"string"
+            },
+            "brachyTherapyEndDate":{
+              "type":"string"
+            },
+            "radiationDose":{
+              "type":"string"
+            }
+          }
+        },
+        "created_by":{
+          "type":"string"
+        },
+        "diagnosis_treatment_options_id":{
+          "type":"string"
+        },
+        "patient_diagnosis_id":{
+          "type":"string"
+        },
+        "treatment_options_template_id":{
+          "type":"string"
+        }
+      }
+    },
+    "FetchCareTeamByPostSuccessResponse":{
+      "type":"object",
+      "properties":{
+        "message":{
+          "type":"string"
+        },
+        "data":{
+          "type":"object",
+          "properties":{
+            "status":{
+              "type":"integer",
+              "default":200
+            },
+          "message":{
+            "type":"string"
+          },
+          "data":{
+            "type":"array",
+            "items":{
+              "type":"object",
+              "properties":{
+                "id":{
+                  "type":"string"
+                },
+                "treatment_options_id":{
+                  "type":"string"
+                },
+                "health_practitioner_type_id":{
+                  "type":"string"
+                },
+                "count":{
+                  "type":"string"
+                },
+                "tenant_id":{
+                  "type":"string"
+                },
+                "created_by":{
+                  "type":"string"
+                },
+                "createdAt":{
+                  "type":"string"
+                },
+                "updated_by":{
+                  "type":"string"
+                },
+                "updatedAt":{
+                  "type":"string"
+                },
+                "health_practitioner_type":{
+                  "id":{
+                    "type":"string"
+                  },
+                  "description":{
+                    "type":"string"
+                  },
+                  "code":{
+                    "type":"string"
+                  },
+                  "createdAt":{
+                    "type":"string"
+                  },
+                  "updatedAt":{
+                    "type":"string"
+                  },
+                  "created_by":{
+                    "type":"string"
+                  },
+                  "updated_by":{
+                    "type":"string"
+                  }
+                }
+              }
+            }
+          }
+         }
+        }
+      }
+    },
+    "GetMessageBodyParams":{
+      "type":"object",
+      "properties":{
+        "id":{
+          "type":"string"
+        }
+      }
+    },
+    "GetMessageSuccessResponse":{
+      "type":"object",
+      "properties":{
+        "message":{
+          "type":"string"
+        },
+        "data":{
+          "type":"object",
+          "properties":{
+            "parent_id":{
+              "type":"string"
+            },
+            "subject":{
+              "type":"string"
+            },
+            "patient_id":{
+              "type":"string"
+            },
+            "patientName":{
+              "type":"string"
+            },
+            "sender":{
+              "type":"string"
+            },
+            "senderName":{
+              "type":"string"
+            },
+            "sender_id":{
+              "type":"string"
+            },
+            "recipient_id":{
+              "type":"string"
+            },
+            "chat_with_id":{
+              "type":"string"
+            },
+            "chat_with_user":{
+              "type":"string"
+            },
+            "hasUnreadMessages":{
+              "type":"boolean"
+            },
+            "isClosed":{
+              "type":"boolean"
+            },
+            "conversations":{
+              "type":"array",
+              "items":{
+                "type":"object",
+                "properties":{
+                  "id":{
+                    "type":"string"
+                  },
+                  "subject":{
+                    "type":"string"
+                  },
+                  "body":{
+                    "type":"string"
+                  },
+                  "sent_date":{
+                    "type":"string"
+                  },
+                  "patient_id":{
+                    "type":"string"
+                  },
+                  "createdAt":{
+                    "type":"string"
+                  },
+                  "updatedAt":{
+                    "type":"string"
+                  },
+                  "created_by":{
+                    "type":"string"
+                  },
+                  "updated_by":{
+                    "type":"string"
+                  },
+                  "parent_id":{
+                    "type":"string"
+                  },
+                  "sender_id":{
+                    "type":"string"
+                  },
+                  "reference_message":{
+                    "type":"string"
+                  },
+                  "isClosed":{
+                    "type":"boolean"
+                  },
+                  "sender":{
+                    "type":"string"
+                  },
+                  "attachments":{
+                    "type":"array"
+                  },
+                  "recipientName":{
+                    "type":"string"
+                  },
+                  "is_sender":{
+                    "type":"boolean"
+                  },
+                  "message_read_flag":{
+                    "type":"boolean"
+                  },
+                  "deleted_flag":{
+                    "type":"boolean"
+                  },
+                  "recipient_id":{
+                    "type":"string"
+                  },
+                  "read_date":{
+                    "type":"string"
+                  },
+                  "chat_with_id":{
+                    "type":"string"
+                  },
+                  "chat_with_user":{
+                    "type":"string"
+                  },
+                  "message_id":{
+                    "type":"string"
+                  },
+                  "recentMessages":{
+                    "type":"object"
+                  },
+                  "unreadCount":{
+                    "type":"string"
+                  },
+                  "patientName":{
+                    "type":"string"
+                  },
+                  "message_sender_id":{
+                    "type":"string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "ArchiveMessageSuccessResponse":{
+      "type":"object",
+      "properties":{
+        "message":{
+          "type":"string"
+        },
+        "data":{
+          "type":"object",
+          "properties":{
+            "status":{
+             "type":"integer"
+           },
+            "message":{
+             "type":"string"
+           },
+            "data":{
+             "type":"array",
+             "items":{
+               "type":"object",
+               "properties":{
+                 "to":{
+                  "type":"string"
+                },
+                 "from":{
+                  "type":"string"
+                },
+                 "msg_date":{
+                  "type":"string"
+                },
+                 "subject":{
+                  "type":"string"
+                },
+                 "msg_content":{
+                  "type":"string"
+                },
+                 "is_parent":{
+                  "type":"boolean"
+                },
+                 "reference_message":{
+                  "type":"array"
+                }
+              }
+             }
+           }
+         }
+        }
+      }
+    },
+    "AddNotesSuccessResponse":{
+      "type":"object",
+      "properties": {
+        "message": {
+          "type": "string"
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "integer"
+            },
+            "message": {
+              "type": "string"
+            },
+            "data": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "encounter_date": {
+                  "type": "string"
+                },
+                "notes": {
+                  "type": "string"
+                },
+                "title": {
+                  "type": "string"
+                },
+                "createdAt": {
+                  "type": "string"
+                },
+                "updatedAt": {
+                  "type": "string"
+                },
+                "created_by": {
+                  "type": "string"
+                },
+                "updated_by": {
+                  "type": "string"
+                },
+                "health_practitioner_carer_id": {
+                  "type": "string"
+                },
+                "patient_id": {
+                  "type": "string"
+                },
+                "message_id": {
+                  "type": "string"
+                },
+                "archived_conversation": {
+                  "type": "string"
+                },
+                "tenant_id": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "GetPatientDetailsSuccessResponse":{
+      "type":"object",
+      "properties":{
+        "message": {
+          "type":"string"
+        },
+        "data": {
+          "biometric": {
+            "type":"array"
+          },
+          "snomed": {
+            "type":"array"
+          },
+          "diagnosis": {
+            "type":"array"
+          },
+          "createdAt": {
+            "type":"string"
+          },
+          "updatedAt": {
+            "type":"string"
+          },
+          "id": {
+            "type":"string"
+          },
+          "title_id":  {
+            "type":"string"
+          },
+          "family_name":  {
+            "type":"string"
+          },
+          "firstname":  {
+            "type":"string"
+          },
+          "middle_initial":  {
+            "type":"string"
+          },
+          "postal_address_1": {
+            "type":"string"
+          },
+          "postal_address_2":  {
+            "type":"string"
+          },
+          "postal_address_3":  {
+            "type":"string"
+          },
+          "postal_address_suburb": {
+            "type":"string"
+          },
+          "postal_address_postcode":  {
+            "type":"string"
+          },
+          "postal_address_state":  {
+            "type":"string"
+          },
+          "address_1":  {
+            "type":"string"
+          },
+          "address_2":  {
+            "type":"string"
+          },
+          "address_3":  {
+            "type":"string"
+          },
+          "address_suburb": {
+            "type":"string"
+          },
+          "address_state":  {
+            "type":"string"
+          },
+          "address_postcode":  {
+            "type":"string"
+          },
+          "medicare_number":  {
+            "type":"string"
+          },
+          "medicare_position_digit":  {
+            "type":"string"
+          },
+          "date_of_birth": {
+            "type":"string"
+          },
+          "country_of_birth":  {
+            "type":"string"
+          },
+          "occupation":  {
+            "type":"string"
+          },
+          "email":  {
+            "type":"string"
+          },
+          "no_email": {
+            "type":"boolean"
+          },
+          "gender_id":  {
+            "type":"string"
+          },
+          "phone":  {
+            "type":"string"
+          },
+          "secondary_phone":  {
+            "type":"string"
+          },
+          "postal_as_residential": {
+            "type":"integer"
+          },
+          "hospital":  {
+            "type":"string"
+          },
+          "created_by":  {
+            "type":"string"
+          },
+          "updated_by":  {
+            "type":"string"
+          },
+          "is_aboriginal_torres_strait": {
+            "type":"boolean"
+          },
+          "phone_verified": {
+            "type":"boolean"
+          },
+          "email_verified": {
+            "type":"boolean"
+          },
+          "user_account_id":  {
+            "type":"string"
+          },
+          "care_unit":  {
+            "type":"array"
+          },
+          "encounter":  {
+            "type":"array"
+          },
+          "disease_assessment": {
+            "type":"array"
+          },
+          "hasPatientHistory": {
+            "type":"boolean"
+          },
+          "history":  {
+            "type":"array"
+          },
+          "verified_flag": {
+            "type":"boolean"
+          },
+          "isPhoneVerified": {
+            "type":"boolean"
+          },
+          "isEmailVerified": {
+            "type":"boolean"
+          }
+        }
+      }
+    },
+    "UpdatePatientDetailsBodyParams":{
+      "type":"object",
+      "properties":{
+        "family_name": {
+          "type":"string"
+        },
+        "firstname": {
+          "type":"string"
+        },
+        "medicare_number": {
+          "type":"string"
+        },
+        "address_postcode": {
+          "type":"string"
+        },
+        "no_email": {
+          "type":"boolean"
+        },
+        "email": {
+          "type":"string"
+        },
+        "is_aboriginal_torres_strait": {
+          "type":"boolean"
+        },
+        "biometric": {
+          "type":"array"
+        },
+        "care_unit": {
+          "type":"array"
+        },
+        "phone": {
+          "type":"string"
+        },
+        "gender_id": {
+          "type":"integer"
+        },
+        "date_of_birth": {
+          "type":"string"
+        },
+        "age": {
+          "type":"string"
+        },
+        "address_1":  {
+            "type":"string"
+          },
+        "address_2":  {
+            "type":"string"
+          },
+        "address_suburb":  {
+            "type":"string"
+          },
+        "address_state": {
+          "type":"string"
+        },
+        "secondary_phone":  {
+            "type":"string"
+          },
+        "hospital":  {
+            "type":"string"
+          },
+        "country_of_birth":  {
+            "type":"string"
+          },
+        "occupation":  {
+            "type":"string"
+          },
+        "created_by":{
+          "type":"string"
+        },
+        "postal_address_1":  {
+            "type":"string"
+          },
+        "addrespostal_address_2s_2":  {
+            "type":"string"
+          },
+        "postal_address_suburb":  {
+            "type":"string"
+          },
+        "postal_address_state": {
+          "type":"string"
+        },
+        "postal_address_postcode": {
+          "type":"string"
+        },
+        "postal_as_residential": {
+          "type":"integer"
+        }
+      }
+    },
+    "UpdatePatientDetailsSuccessResponse":{
+      "type":"object",
+      "properties":{
+        "message":{
+          "type":"string"
+        },
+        "data":{
+          "type":"object",
+          "properties":{
+            "family_name": {
+              "type":"string"
+            },
+            "firstname": {
+              "type":"string"
+            },
+            "medicare_number": {
+              "type":"string"
+            },
+            "address_postcode": {
+              "type":"string"
+            },
+            "no_email": {
+              "type":"boolean"
+            },
+            "email": {
+              "type":"string"
+            },
+            "is_aboriginal_torres_strait": {
+              "type":"boolean"
+            },
+            "biometric": {
+              "type":"array"
+            },
+            "care_unit": {
+              "type":"array"
+            },
+            "phone": {
+              "type":"string"
+            },
+            "gender_id": {
+              "type":"integer"
+            },
+            "date_of_birth": {
+              "type":"string"
+            },
+            "age": {
+              "type":"string"
+            },
+            "address_1":  {
+                "type":"string"
+              },
+            "address_2":  {
+                "type":"string"
+              },
+            "address_suburb":  {
+                "type":"string"
+              },
+            "address_state": {
+              "type":"string"
+            },
+            "secondary_phone":  {
+                "type":"string"
+              },
+            "hospital":  {
+                "type":"string"
+              },
+            "country_of_birth":  {
+                "type":"string"
+              },
+            "occupation":  {
+                "type":"string"
+              },
+            "created_by":{
+              "type":"string"
+            },
+            "postal_address_1":  {
+                "type":"string"
+              },
+            "addrespostal_address_2s_2":  {
+                "type":"string"
+              },
+            "postal_address_suburb":  {
+                "type":"string"
+              },
+            "postal_address_state": {
+              "type":"string"
+            },
+            "postal_address_postcode": {
+              "type":"string"
+            },
+            "postal_as_residential": {
+              "type":"integer"
+            }
+          }
+        }
+     }
+    },
+    "VerifyPatientBodyParams":{
+      "type":"object",
+      "properties":{
+        "date_of_birth": {
+          "type":"string"
+        },
+        "family_name": {
+          "type":"string"
+        },
+        "firstname": {
+          "type":"string"
+        },
+        "medicare_number": {
+          "type":"string"
+        },
+        "token": {
+          "type":"string"
+        }
+      }
+    },
+    "VerifyPatientSucess":{
+      "type":"object",
+      "properties":{
+        "message": {
+          "type":"string"
+        },
+        "data": {
+          "type":"object",
+          "properties": {
+            "createdAt": {
+              "type": "string"
+            },
+            "updatedAt": {
+              "type": "string"
+            },
+            "id": {
+              "type": "string"
+            },
+            "title_id": {
+              "type": "string"
+            },
+            "family_name": {
+              "type": "string"
+            },
+            "firstname": {
+              "type": "string"
+            },
+            "middle_initial": {
+              "type": "string"
+            },
+            "postal_address_1": {
+              "type": "string"
+            },
+            "postal_address_2": {
+              "type": "string"
+            },
+            "postal_address_3": {
+              "type": "string"
+            },
+            "postal_address_suburb": {
+              "type": "string"
+            },
+            "postal_address_postcode": {
+              "type": "string"
+            },
+            "postal_address_state": {
+              "type": "string"
+            },
+            "address_1": {
+              "type": "string"
+            },
+            "address_2": {
+              "type": "string"
+            },
+            "address_3": {
+              "type": "string"
+            },
+            "address_suburb": {
+              "type": "string"
+            },
+            "address_state": {
+              "type": "string"
+            },
+            "address_postcode": {
+              "type": "string"
+            },
+            "medicare_number": {
+              "type": "string"
+            },
+            "medicare_position_digit": {
+              "type": "string"
+            },
+            "date_of_birth": {
+              "type": "string"
+            },
+            "country_of_birth": {
+              "type": "string"
+            },
+            "occupation": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string"
+            },
+            "no_email": {
+              "type": "boolean"
+            },
+            "gender_id": {
+              "type": "string"
+            },
+            "phone": {
+              "type": "string"
+            },
+            "secondary_phone": {
+              "type": "string"
+            },
+            "postal_as_residential": {
+              "type": "integer"
+            },
+            "hospital": {
+              "type": "string"
+            },
+            "created_by": {
+              "type": "string"
+            },
+            "updated_by": {
+              "type": "string"
+            },
+            "is_aboriginal_torres_strait": {
+              "type": "boolean"
+            },
+            "phone_verified": {
+              "type": "boolean"
+            },
+            "email_verified": {
+              "type": "boolean"
+            },
+            "user_account_id": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "FetchByIdSurveyTemplateSuccessResponse":{
+      "type":"object",
+      "properties":{
+        "message": {
+            "type":"string"
+        },
+        "data":{
+            "type":"object",
+            "properties":{
+                "id": {
+                    "type":"string"
+                },
+                "survey_name": {
+                    "type":"string"
+                },
+                "created_by": {
+                    "type":"string"
+                },
+                "createdAt": {
+                    "type":"string"
+                },
+                "updated_by": {
+                    "type":"string"
+                },
+                "updatedAt": {
+                    "type":"string"
+                },
+                "tenant_id": {
+                    "type":"string"
+                },
+                "latest_template_definition": {
+                    "type":"string"
+                },
+                "survey_template_version":{
+                    "type":"array",
+                    "items":{
+                        "type":"object",
+                        "properties":{
+                            "id": {
+                                "type":"string"
+                            },
+                            "version": {
+                                "type":"string"
+                            },
+                            "template": {"$ref":"#/definitions/templateArrayData"},
+                            "survey_template_id": {
+                                "type":"string"
+                            },
+                            "createdAt": {
+                                "type":"string"
+                            }
+                        }
+                    }
+                }
+            }
+        } 
+      }
+    },
+    "UpdateTemplateTaskSuccessResponse":{
+      "type":"object",
+      "properties":{
+        "message": {
+          "type":"string"
+        },
+        "data": {
+          "type":"object",
+          "properties":{
+            "status": {
+              "type":"integer"
+            },
+            "message": {
+              "type":"string"
+            },
+            "data": {
+              "type":"object",
+              "properties":{
+                "generatedMaps": {
+                  "type":"array"
+                },
+                "raw":{
+                  "type":"array",
+                  "items":{
+                    "type":"object",
+                    "properties":{
+                      "id": {
+                        "type":"string"
+                      },
+                      "name": {
+                        "type":"string"
+                      },
+                      "description": {
+                        "type":"string"
+                      },
+                      "due_days": {
+                        "type":"integer"
+                      },
+                      "responsibility_id": {
+                        "type":"string"
+                      },
+                      "owner_id": {
+                        "type":"string"
+                      },
+                      "event_type_id": {
+                        "type":"string"
+                      },
+                      "commencement_milestone_flag": {
+                        "type":"boolean"
+                      },
+                      "recurring": {
+                        "type":"string"
+                      },
+                      "drug_details": {
+                        "type":"string"
+                      },
+                      "sort_order": {
+                        "type":"string"
+                      },
+                      "treatment_id": {
+                        "type":"string"
+                      },
+                      "due_date": {
+                        "type":"string"
+                      },
+                      "task_completion_date": {
+                        "type":"string"
+                      },
+                      "task_location_id": {
+                        "type":"string"
+                      },
+                      "completed_flag": {
+                        "type":"boolean"
+                      },
+                      "custom_flag": {
+                        "type":"boolean"
+                      },
+                      "createdAt": {
+                        "type":"string"
+                      },
+                      "updatedAt": {
+                        "type":"string"
+                      },
+                      "created_by": {
+                        "type":"string"
+                      },
+                      "updated_by": {
+                        "type":"string"
+                      },
+                      "tenant_id": {
+                        "type":"string"
+                      },
+                      "survey_template_id": {
+                        "type":"string"
+                      },
+                      "comments": {
+                        "type":"string"
+                      }
+                    }
+                  }
+                },
+                "affected": {
+                  "type":"integer"
+                }
+              }
+            }
+        }
         }
       }
     }
